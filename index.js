@@ -1,4 +1,5 @@
 //packs
+const aws=require('aws-sdk')
 const Discord=require("discord.js")
 const database=require("quick.db")
 //require('dotenv/config')
@@ -91,4 +92,4 @@ client.on("message", async(message)=>{
 		console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
 	}
 })
-client.login(APP_TOKEN)
+client.login(process.env.APP_TOKEN)
