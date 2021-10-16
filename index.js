@@ -1,7 +1,7 @@
 //packs
 const Discord=require("discord.js")
 const database=require("quick.db")
-require('dotenv/config')
+//require('dotenv/config')
 //client const
 const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
 //arqv request
@@ -91,4 +91,4 @@ client.on("message", async(message)=>{
 		console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
 	}
 })
-client.login(process.env.APP_TOKEN)
+client.login(APP_TOKEN)
