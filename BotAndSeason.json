@@ -1,0 +1,107 @@
+{
+	"DevControl": {
+		"Banner": {
+			"img":"https://pbs.twimg.com/media/DdSxevkW4AATxxG.jpg",
+			"img2": "https://lh5.googleusercontent.com/-6ncU_yl9lzw/UVjjoK3kdyI/AAAAAAAAWz0/ce-vBhYTtqA/s640/VLC-00005.png"
+		},
+		"IDs": {
+			"Dev1":"493238508572639233"
+		},
+		"Developing": true
+	},	
+	"BotInfo": {
+		"Important":"Pre-patch version dungon devloping [build status, Shop itens and dungeon]", 
+		"New": "status criado",
+		"comandos": "createPlayer \niDnfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstatus"
+	},
+	"SeasonControl": {
+		"season":"1",
+		"acessKey":true,
+		"infoSeason":"Um mundo de magia se revela para nós, onde existem nobres e plebeus, você pode fazer o que quiser, dependendo de suas escolhas você não conseguirá realizar",
+		"img": {
+			"seasonImg":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgJvbG02K8-P12MavLjootELLfuUAmaFnNL-J3yQWepkcUwQd93l7TQbkvbBsobwGsjdE&usqp=CAU"
+		}
+	},
+	"Script": {
+		"P":[
+			"e entendeu a matemática, ganhando 1 ponto de inteligência",
+			"e conseguiu fazer o percurso, ganhando 1 ponto de velocidade",
+			"e conseguiu, ganhando 1 ponto em força",
+			"e conseguiu 1 ponto em vitalidade",
+			"e conseguiu 1 ponto em magia"
+		],
+		"O":[
+			"e entendeu a matemática, mas esses livros são muitos básicos para você e você não ganhou nenhum ponto de inteligência",
+			"e conseguiu fazer o percurso, mas ele era pequeno de mais para você e por isso você não ganhou nenhum ponto em velocidade",	
+			"e conseguiu levantar o peso, mas ele era muito leve para você e por isso você não ganhou nenhum ponto em força",
+			"e consegiu aguentar o treinamento, mas era muito facil para você e por isso você não ganhou nenhum ponto em vitalidade",
+			"e conseguiu terminar o treinamento de magia, mas era muito facil para você e por isso você não ganhou nenhum ponto em mana"
+		],
+		"F":[
+			"mas não entendeu nada",
+			"mas não conseguiu fazer o percurso",
+			"mas não consegiu levantar o peso",
+			"mas não aguentou o treinamento",
+			"mas não conseguiu terminar o treinamento de magia"
+		],
+		"Def":[ 
+			"Default, not found Var Scl positive",
+			"Default, not found Var Scl Uper",
+			"Default, not found Var Scl negative"
+		],
+		"Key":{
+			"KeyF": [
+				"Barra de Mana",
+				"Barra de Vida"
+			]
+		},
+		"Shops": {
+			"Open": "Pessoas com pouco dinheiro não são bem vindas aqui",
+			"Close": "Loja fechada, volte amanhã"
+		}
+	},
+	"habilitLevel": {
+		"min":-3,
+		"max":10
+	},
+	"player": {
+		"stats": {
+			"mana": { 
+				"Lv":[		
+					0,
+					5,
+					10,
+					15,
+					20,
+					25,
+					30,
+					45,
+					50,
+					55
+				]
+			},
+			"vitality": {
+				"Lv" : [
+					1,
+					5,
+					10,
+					15,
+					20,
+					25,
+					30,
+					45,
+					50,
+					55
+				]
+			}
+		}
+	},
+	"Economic": {
+		"Wage": {
+			"InspectorSal": 30
+		},
+		"Shop": {
+			"Open": false
+		}
+	}
+}

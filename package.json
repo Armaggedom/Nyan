@@ -1,0 +1,22 @@
+{
+  "name": "Nyan",
+  "version": "2.4.0",
+  "description": "project OWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "author": {
+    "name": "Bombbom",
+    "discord": "キャンディー#9775"
+  },
+  "type": "comand_module.js",
+  "license": "ISC",
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "discord.js": "^12.5.3",
+    "index.js": "0.0.3",
+    "quick.db": "7.1.3"
+  }
+}
