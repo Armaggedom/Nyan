@@ -10,8 +10,8 @@
 		"Developing": true
 	},	
 	"BotInfo": {
-		"Important":"Pre-patch version dungon devloping [build status, Shop itens and dungeon]", 
-		"New": "status criado",
+		"Important":"2.5.2 version, dev[dungeon]", 
+		"New": "Swords and Potion \npreparando para retirar o bloq dos comandos econômicos",
 		"comandos": "createPlayer \niDnfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstatus"
 	},
 	"SeasonControl": {
@@ -57,7 +57,7 @@
 			]
 		},
 		"Shops": {
-			"Open": "Itens que podem ser comprados na loja: \n 1- poção de vida 15yans \n2- poção de mana 15yans \n3 - energético 25yans",
+			"Open": "Itens que podem ser comprados na loja: \n 1- poção de vida 15yans \n2- poção de mana 15yans \n3 - energético 25yans \n4 - faquinha de corta pão 30yans",
 			"Close": "Loja fechada, volte amanhã"
 		}
 	},
@@ -71,7 +71,7 @@
 				"Lv":[0, 5, 10, 15, 20, 25 ,30, 45, 50, 55]
 			},
 			"vitality": {
-				"Lv" : [1, 5, 10, 15, 20, 25, 30, 45, 50, 55]
+				"Lv" : [1, 6, 11, 16, 21, 26, 31, 46, 51, 56]
 			},
 			"energy": {
 				"Lv": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
@@ -80,16 +80,24 @@
 	},
 	"Economic": {
 		"Wage": {
-			"InspectorSal": 30
+			"Def": 3
 		},
 		"Shop": {
 			"Open": true,
 
 			"itens": {
-				"name":["poção de vida", "poção de mana", "energético"],
+				"name":["poção de vida", "poção de mana", "energético", "faquinha de corta pão"],
 				"keyI": ["lifeP_", "manaP_", "energyP_"],
-				"price": [15, 15, 25]
+				"price": [15, 15, 25, 30]
 			}
 		}
+	},
+	"wearpons": {
+		"faquinha de corta pão": {
+			"damage": 1
+		},
+	},
+	"dungeon": {
+
 	}
 }

@@ -1,6 +1,6 @@
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
-function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP) {
+function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client) {
 	//function-no imported
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar
@@ -16,7 +16,12 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	if(command===`${prefix}info`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`BOT: ${client.user.username}`)
-			.setDescription(`BOT: project RPWT [Role Play Word Text] \nVersion: ${app_pack.version}`)
+			.setDescription(
+				'╔══════════════════════════\n'+
+				'║ BOT: project RPWT [Role Play Word Text]\n'+
+				'║ Version: '+app_pack.version+'\n'+
+				'╚══════════════════════════'
+				)
 			.addFields({name: `M-Dev:`, value: `キャンディー`, inline: true})
 			.addFields({name: `Github`, value: `\`\`\`https://github.com/Armaggedom/Nyan\`\`\``, inline: true})
 			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
@@ -53,7 +58,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 					.addFields({name: `força`, value: `\`\`\`${strength}\`\`\``, inline: false})
 				//	.addFields({name: `agilidade`, value: `\`\`\`${speed}\`\`\``, inline: false})
 					.addFields({name: `vitalidade`, value: `\`\`\`${vitality}\`\`\``, inline: false})
-					.addFields({name: `inteligência`, value: `\`\`\`${intelligence}\`\`\``, inline: false})
+					.addFields({name: `inteligência [Developing]`, value: `\`\`\`${intelligence}\`\`\``, inline: false})
 					.addFields({name: `Mana`, value: `\`\`\`${mana}\`\`\``, inline: true})
 					.setFooter(`userInfo ${message.author.username}`)
 					.setTimestamp()
@@ -78,8 +83,8 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			return message.channel.send(
 				progressBar(database.get(`mbar_${message.author.id}`), bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
 				+'\n'+ progressBar(database.get(`lbar_${message.author.id}`), bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
-				+'\n'+ progressBar(database.get(`ebar_${message.author.id}`), bseason.player.stats.energy.Lv[energy], bseason.player.stats.energy.Lv[energy], 2)
-				+'```\n'+'dano p/atk: '+strength
+				+'\n'+ progressBar(database.get(`ebar_${message.author.id}`), bseason.player.stats.energy.Lv[energy], bseason.player.stats.energy.Lv[speed], 2)
+				+'```\n'+'dano p/atk: 'database.get(`wearpon_${message.author.id}.damage`)
 				+'\n'+'defesa: '+defense+'```'
 			)
 		} 
@@ -143,7 +148,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	else if(command===`${prefix}trabalhar`) {
 		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1) {return 1}
 	   	database.add(`money_${message.author.id}`, bseason.Economic.Wage.InspectorSal)
-	   	return message.channel.send(`você trabalhou na fronteira do país e ganhou o salário por ser um inspetor de fronteira \ngahou um total de ${bseason.Economic.Wage.InspectorSal}yans`)
+	   	return message.channel.send(`você trabalhou na padaria do seu Jonias \ngahou um total de ${bseason.Economic.Wage.Def}yans`)
 	}
 	//money out
 	else if(command===`${prefix}loja`) {
@@ -171,6 +176,10 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			if(database.get(`money_${message.author.id}`)<bseason.Economic.Shop.itens.price[item-1]) {
 				return message.channel.send(`você não tem dinheiro suficiente`)
 			}
+			else if(item>3) {
+				message.channel.send(`você comprou 1 arma e ela ja foi equipada`)
+				return database.set(`wearpon_${message.author.id}`, {name: bseason.wearpons[item-4], damage: bseason.wearpons[item-4].damage})
+			}
 			else {
 				database.add(`${bseason.Economic.Shop.itens.keyI[item-1]}${message.author.id}`, 1)
 				database.subtract(`money_${message.author.id}`, bseason.Economic.Shop.itens.price[item-1])	
@@ -184,14 +193,16 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	else if(command===`${prefix}inventario`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`inventario`)
-			.setDescription(`você tem: \n${lifeP} poções de vida
-			\nvocê tem: \n${manaP} poções de mana`)
+			.setDescription('você tem: \n'+lifeP+'poções de vida \n'+manaP+' poções de mana \nvocê esta usando como arma'+database.get(`wearpon_${message.author.id}.name`))
 		return message.channel.send(Embed)
 	}
 	/*  ------------------------------------
 		interact-comand-block
 	    ------------------------------------ */
-	else if(command===`${prefix}estudar`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 0, 0, 0) }
+	else if(command===`${prefix}estudar`) {
+		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1){return 1}
+		random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 0, 0, 0)
+	}
 	else if(command===`${prefix}correr`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 1, 1, 1)}
 	else if(command===`${prefix}academia`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 2, 2, 2)}
 	else if(command===`${prefix}treinarresistência`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 3, 3, 3)}

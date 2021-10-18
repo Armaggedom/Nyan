@@ -79,15 +79,17 @@ try {
 			let money=await database.fetch(`money_${message.author.id}`)
 			let mana=await database.fetch(`mana_${message.author.id}`)
 			let defense=await database.fetch(`def_${message.author.id}`)
-	//		let speed=await database.fetch(`speed_${message.author.id}`) not in use
+			let speed=await database.fetch(`speed_${message.author.id}`)
 			//bar lets
 			let manacharge=await database.fetch(`mbar_${message.author.id}`)
 			let livecharge=await database.fetch(`lbar_${message.author.id}`)
 			let energycharge=await database.fetch(`ebar_${message.author.id}`)
-			//item let
+			//item potion let
 			let lifeP=await database.fetch(`lifeP_${message.author.id}`)
 			let manaP=await database.fetch(`manaP_${message.author.id}`)
 			let energyP=await database.fetch(`energyP_${message.author.id}`)
+			//item 
+			let wearpons=await database.fetch(`wearpon_${message.author.id}`)
 			//person ifs
 			if(intelligence===null) {intelligence=0}
 			if(defense===null) {defense=0}
@@ -95,7 +97,7 @@ try {
 			if(vitality===null) {vitality=0}
 			if(money===null) {money=0}
 			if(mana===null) {mana=0}
-	//		if(speed===null) {speed=0} not in use
+			if(speed===null) {speed=0}
 			//bar ifs
 			if(manacharge===null) {manacharge=0}
 			if(livecharge===null) {livecharge=1}
@@ -104,13 +106,12 @@ try {
 			if(lifeP===null) {lifeP=0}
 			if(manaP===null) {manaP=0}
 			if(energyP===null) {energyP=5}
+			if(wearpons===null) {wearpons=0}
 			//call command_module
-			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP)
+			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client)
 			if(block===1) {DevsBanner()}
 		} catch (error) {
-			message.channel.send(`\`\`\`diff
-	- ERROR: ${error}
-		\`\`\``)
+			message.channel.send(`ERROR: ${error}`)
 			console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
 		}
 	})
