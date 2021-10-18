@@ -84,7 +84,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 				progressBar(database.get(`mbar_${message.author.id}`), bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
 				+'\n'+ progressBar(database.get(`lbar_${message.author.id}`), bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
 				+'\n'+ progressBar(database.get(`ebar_${message.author.id}`), bseason.player.stats.energy.Lv[energy], bseason.player.stats.energy.Lv[speed], 2)
-				+'```\n'+'dano p/atk: 'database.get(`wearpon_${message.author.id}.damage`)
+				+'```\n'+'dano p/atk: '+database.get(`wearpon_${message.author.id}.damage`)
 				+'\n'+'defesa: '+defense+'```'
 			)
 		} 
