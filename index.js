@@ -19,12 +19,20 @@ try {
 	var prefix='$';
 	//command
 	client.on("ready", ()=>{
-		console.log("Bot online");
-		console.log(`Info:\nDev: Bombbom\nVers: ${pack.version}\nDescription: ${pack.description}\nCreation data:09/10 at 18:54 (GMT-3)`);
+		console.log(
+			'╔═════════════════════════════════════════════════════════════════════════════════════╗\n'+
+			'║                                     Bot Online                                      ║\n'+
+			'║Info:                                                                                ║\n'+
+			'║     Dev: Bombbom                                                                    ║\n'+
+			'║     Vers: '+pack.version+', Description: '+pack.description+'                                           ║\n'+
+			'║     Creation data: Creation data:09/10 at 18:54 (GMT-3)                             ║\n'+
+			'║     Init time:'+Date()+'        ║\n'+
+			'║                                                                                     ║\n'+
+			'╚═════════════════════════════════════════════════════════════════════════════════════╝\n\n'
+		)
 		console.log('\x1b[33m%s\x1b[0m', `Inportant Info: ${bseason.BotInfo.Important}`)
 		console.log("Init time: ", Date());
 	        if(pack.version != packL.version) {console.log('\x1b[31m%s\x1b[0m', `Warning: API version is different from current pack version and instability or errors may occur during use`)}
-		console.log("------------------------------------")
 		client.user.setActivity('Development', { type: 'WATCHING' });
 	  //client.user.setStatus('dnd') // Can be 'available', 'idle', 'dnd', or 'invisible'
 	})
