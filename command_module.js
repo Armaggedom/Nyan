@@ -23,7 +23,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 				'╚══════════════════════════'
 				)
 			.addFields({name: `M-Dev:`, value: `キャンディー`, inline: true})
-			.addFields({name: `Github`, value: `\`\`\`https://github.com/Armaggedom/Nyan\`\`\``, inline: true})
+			.setAuthor('GitHub', 'https://cdn-icons-png.flaticon.com/512/25/25231.png', 'https://github.com/Armaggedom/Nyan')
 			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 			.setTimestamp()
 			.setColor("#000000");
