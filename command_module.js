@@ -1,6 +1,6 @@
 const bseason=require("./BotAndSeason.json")
-function commandList(command, message, prefix, Discord, random_chance,intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP) {
-	var keyI=["mana_"];
+const app_pack=require("./package.json")
+function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP) {
 	//function-no imported
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar
@@ -12,17 +12,28 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 		const bar = '```'+bseason.Script.Key.KeyF[keyF]+'\n['+progressText+emptyProgressText+']'+percentageText+'```'; // Creating the bar
 		return bar;
 	}
-	if(command===`${prefix}test`){return message.reply(`estou falando diretamente do arquivo command_modules.js \nEstou crescendo ein, ja to com 2 .js, 4 .json e 1 Procfile hih`)};
+	//bot test
+	if(command===`${prefix}info`) {
+		const Embed=new Discord.MessageEmbed()
+			.setTitle(`BOT: ${client.user.username}`)
+			.setDescription(`BOT: project RPWT [Role Play Word Text] \nVersion: ${app_pack.version}`)
+			.addFields({name: `M-Dev:`, value: `キャンディー`, inline: true})
+			.addFields({name: `Github`, value: `\`\`\`https://github.com/Armaggedom/Nyan\`\`\``, inline: true})
+			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
+			.setTimestamp()
+			.setColor("#000000");
+		return message.channel.send(Embed)
+	}
 	/*  ------------------------------------
 		default-command-block
 		----,-------------------------------- */
-	if(command===`${prefix}help`) {
+	else if(command===`${prefix}help`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`Help`)
 			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}`)
 			.addFields({name: `Comandos: prefixo: '${prefix}'`, value: `\`\`\`${bseason.BotInfo.comandos}\`\`\``, inline: true})
 			.addFields({name: `novidades:`, value: `\`\`\`${bseason.BotInfo.New}\`\`\``,inline: true})
-			.setFooter(`RPG Bot (project OWT) - Creator: キャンディー \nVersion: pt-br`)
+			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 			.setTimestamp()
 			.setColor("#000000");
 		return message.channel.send(Embed)
