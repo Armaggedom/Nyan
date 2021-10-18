@@ -1,5 +1,6 @@
 const bseason=require("./BotAndSeason.json")
-function commandList(command, message, prefix, Discord, random_chance,intelligence, strength, vitality, money, mana, database, defense) {
+function commandList(command, message, prefix, Discord, random_chance,intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP) {
+	var keyI=["mana_"];
 	//function-no imported
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar
@@ -66,6 +67,7 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 			return message.channel.send(
 				progressBar(database.get(`mbar_${message.author.id}`), bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
 				+'\n'+ progressBar(database.get(`lbar_${message.author.id}`), bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
+				+'\n'+ progressBar(database.get(`ebar_${message.author.id}`), bseason.player.stats.energy.Lv[energy], bseason.player.stats.energy.Lv[energy], 2)
 				+'```\n'+'dano p/atk: '+strength
 				+'\n'+'defesa: '+defense+'```'
 			)
@@ -74,14 +76,47 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 			return message.channel.send(`você não tem magia`)
 		}
 	}
+	/*  ------------------------------------
+		person-stats-comand-block
+	    ------------------------------------ */
 	else if(command===`${prefix}usemanapotion`) {
-		if(database.get(`mana_${message.author.id}`)===0) {
-			return message.channel.send(`poções de mana não ajudam quem não tem magia`)
+		if(database.get(`manaP_${message.author.id}`)<=0) {
+			return message.channel.send(`você não tem poções de mana`)
+		}
+		else {
+			if(database.get(`mana_${message.author.id}`)===0) {
+				return message.channel.send(`poções de mana não ajudam quem não tem magia`)
+			}
+			else {
+				if(bseason.DevControl.Developing===false | message.author.id === bseason.DevControl.IDs.Dev1) {
+					database.subtract(`manaP_${message.author.id}`, 1)
+					database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[mana])
+					return message.channel.send(`você usou uma poção de mana`)
+				}
+			}
+		}
+	}
+	else if(command===`${prefix}uselifepotion`) {
+		if(database.get(`lifeP_${message.author.id}`)<=0) {
+			return message.channel.send(`você não tem poções de vida`)
 		}
 		else {
 			if(bseason.DevControl.Developing===false | message.author.id === bseason.DevControl.IDs.Dev1) {
-				database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[mana])
-				return message.channel.send(`você usou uma poção de mana`)
+				database.subtract(`lifeP_${message.author.id}`, 1)
+				database.set(`lbar_${message.author.id}`, bseason.player.stats.vitality.Lv[vitality])
+				return message.channel.send(`você usou uma poção de vida`)
+			}
+		}
+	}
+	else if(command===`${prefix}useEnergy`) {
+		if(database.get(`energyP_${message.author.id}`)<=0) {
+			return message.channel.send(`você não tem energéticos`)
+		}
+		else {
+			if(bseason.DevControl.Developing===false | message.author.id === bseason.DevControl.IDs.Dev1) {
+				database.subtract(`energyP_${message.author.id}`, 1)
+				database.set(`energyP_${message.author.id}`, bseason.player.stats.energy.Lv[energy])
+				return message.channel.send(`você usou um energético`)
 			}
 		}
 	}
@@ -107,6 +142,7 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 		   	const Embed=new Discord.MessageEmbed()
 			.setTitle(`Loja`)
 			.setDescription(`${bseason.Script.Shops.Open}`)
+			.setFooter(`para comprar digite buy [número do item]`)
 			return message.channel.send(Embed)
 		}
 		else {
@@ -115,6 +151,31 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 				.setDescription(`${bseason.Script.Shops.Close}`)
 			return message.channel.send(Embed)
 		  }
+	}
+	else if(command===`${prefix}buy`) {
+		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1) {return 1}
+		const item=parseInt(args[0]);
+		if(isNaN(item)) {return message.channel.send(`você deve digitar o numero do item ex: buy 1`)}
+		else {
+			if(database.get(`money_${message.author.id}`)<bseason.Economic.Shop.itens.price[item-1]) {
+				return message.channel.send(`você não tem dinheiro suficiente`)
+			}
+			else {
+				database.add(`${bseason.Economic.Shop.itens.keyI[item-1]}${message.author.id}`, 1)
+				database.subtract(`money_${message.author.id}`, bseason.Economic.Shop.itens.price[item-1])	
+				return message.channel.send(`você comprou 1 item`)
+			}
+		}
+	}
+	/*  ------------------------------------
+		player-comand-block
+	    ------------------------------------ */
+	else if(command===`${prefix}inventario`) {
+		const Embed=new Discord.MessageEmbed()
+			.setTitle(`inventario`)
+			.setDescription(`você tem: \n${lifeP} poções de vida
+			\nvocê tem: \n${manaP} poções de mana`)
+		return message.channel.send(Embed)
 	}
 	/*  ------------------------------------
 		interact-comand-block
@@ -125,10 +186,11 @@ function commandList(command, message, prefix, Discord, random_chance,intelligen
 	else if(command===`${prefix}treinarresistência`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 3, 3, 3)}
 	else if(command===`${prefix}treinarmana`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 4, 4, 4)}
 	/*  ------------------------------------
-		interact-comand-block
+		dungeon-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}dungeon`) {
-		if(bseason.DevControl.Developing===false | message.author.id === bseason.DevControl.IDs.Dev1) {}
+		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1) {return 1}
+		return 1
 	}
 	else {return}
 }

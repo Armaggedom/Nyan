@@ -1,8 +1,8 @@
 //packs
-const aws=require('aws-sdk')
+const aws = require('aws-sdk');
 const Discord=require("discord.js")
 const database=require("quick.db")
-//require('dotenv/config')
+require('dotenv/config')
 //client const
 const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
 //arqv request
@@ -71,6 +71,11 @@ client.on("message", async(message)=>{
 		//bar lets
 		let manacharge=await database.fetch(`mbar_${message.author.id}`)
 		let livecharge=await database.fetch(`lbar_${message.author.id}`)
+		let energycharge=await database.fetch(`ebar_${message.author.id}`)
+		//item let
+		let lifeP=await database.fetch(`lifeP_${message.author.id}`)
+		let manaP=await database.fetch(`manaP_${message.author.id}`)
+		let energyP=await database.fetch(`energyP_${message.author.id}`)
 		//person ifs
 		if(intelligence===null) {intelligence=0}
 		if(defense===null) {defense=0}
@@ -82,8 +87,13 @@ client.on("message", async(message)=>{
 		//bar ifs
 		if(manacharge===null) {manacharge=0}
 		if(livecharge===null) {livecharge=1}
+		if(energycharge===null) {energycharge=1}
+		//itens ifs
+		if(lifeP===null) {lifeP=0}
+		if(manaP===null) {manaP=0}
+		if(energyP===null) {energyP=5}
 		//call command_module
-		var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense)
+		var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP)
 		if(block===1) {DevsBanner()}
 	} catch (error) {
 		message.channel.send(`\`\`\`diff

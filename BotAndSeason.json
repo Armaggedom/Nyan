@@ -52,11 +52,12 @@
 		"Key":{
 			"KeyF": [
 				"Barra de Mana",
-				"Barra de Vida"
+				"Barra de Vida",
+				"Barra de Energia"
 			]
 		},
 		"Shops": {
-			"Open": "Pessoas com pouco dinheiro não são bem vindas aqui",
+			"Open": "Itens que podem ser comprados na loja: \n 1- poção de vida 15yans \n2- poção de mana 15yans \n3 - energético 25yans",
 			"Close": "Loja fechada, volte amanhã"
 		}
 	},
@@ -67,32 +68,13 @@
 	"player": {
 		"stats": {
 			"mana": { 
-				"Lv":[		
-					0,
-					5,
-					10,
-					15,
-					20,
-					25,
-					30,
-					45,
-					50,
-					55
-				]
+				"Lv":[0, 5, 10, 15, 20, 25 ,30, 45, 50, 55]
 			},
 			"vitality": {
-				"Lv" : [
-					1,
-					5,
-					10,
-					15,
-					20,
-					25,
-					30,
-					45,
-					50,
-					55
-				]
+				"Lv" : [1, 5, 10, 15, 20, 25, 30, 45, 50, 55]
+			},
+			"energy": {
+				"Lv": [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 			}
 		}
 	},
@@ -101,7 +83,13 @@
 			"InspectorSal": 30
 		},
 		"Shop": {
-			"Open": false
+			"Open": true,
+
+			"itens": {
+				"name":["poção de vida", "poção de mana", "energético"],
+				"keyI": ["lifeP_", "manaP_", "energyP_"],
+				"price": [15, 15, 25]
+			}
 		}
 	}
 }
