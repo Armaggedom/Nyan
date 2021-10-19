@@ -10,7 +10,7 @@
 		"Developing": true
 	},	
 	"BotInfo": {
-		"Important":"2.5.2 version, dev[dungeon]", 
+		"Important":"3.0.1 version, dev[dungeon]", 
 		"New": "Swords and Potion \npreparando para retirar o bloq dos comandos econômicos",
 		"comandos": "createPlayer \ninfo \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nusemanapotion \nuselifepotion \nuseEnergy \ninventario \ndungeon"
 	},

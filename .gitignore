@@ -1,5 +1,0 @@
-.env
-Procfile
-.gitignore
-node_modules
-*.sqlite
