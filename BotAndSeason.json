@@ -12,7 +12,7 @@
 	"BotInfo": {
 		"Important":"2.5.2 version, dev[dungeon]", 
 		"New": "Swords and Potion \npreparando para retirar o bloq dos comandos econômicos",
-		"comandos": "createPlayer \niDnfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstatus"
+		"comandos": "createPlayer \ninfo \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nusemanapotion \nuselifepotion \nuseEnergy \ninventario \ndungeon"
 	},
 	"SeasonControl": {
 		"season":"1",
@@ -59,6 +59,17 @@
 		"Shops": {
 			"Open": "Itens que podem ser comprados na loja: \n 1- poção de vida 15yans \n2- poção de mana 15yans \n3 - energético 25yans \n4 - faquinha de corta pão 30yans",
 			"Close": "Loja fechada, volte amanhã"
+		},
+		"dungeon": {
+			"in": "você entrou na dungeon sozinho(a), o que fará agora?",
+			"commands": "explorar",
+			"out": "você saiu da dungeon",
+			"script": {
+				"exploration": [
+					"você explorou a dungeon mas não encotrou nada",
+					"você explorou a dungeon e encontrou dinheiro"
+				]
+			}
 		}
 	},
 	"habilitLevel": {
@@ -68,7 +79,7 @@
 	"player": {
 		"stats": {
 			"mana": { 
-				"Lv":[0, 5, 10, 15, 20, 25 ,30, 45, 50, 55]
+				"Lv":[0, 5, 10, 15, 20, 25, 30, 45, 50, 55]
 			},
 			"vitality": {
 				"Lv" : [1, 6, 11, 16, 21, 26, 31, 46, 51, 56]
@@ -93,11 +104,20 @@
 		}
 	},
 	"wearpons": {
-		"faquinha de corta pão": {
-			"damage": 1
-		}
+		"name":["faquinha de corta pão"],
+		"damage":[1]
 	},
 	"dungeon": {
-
+		"images": {
+			"dungeon_in_out": "https://static.wikia.nocookie.net/the-hidden-dungeon-only-i-can-enter/images/e/e9/Olivia_Dungeon_Gate.jpg/revision/latest/scale-to-width-down/250?cb=20210117183304"
+		},
+		"randomExploration": {
+			"min": 0,
+			"max": 2,
+			"randomLootMoney": {
+				"min": 0,
+				"max": 15
+			}
+		}
 	}
 }

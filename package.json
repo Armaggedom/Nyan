@@ -1,6 +1,6 @@
 {
   "name": "Nyan",
-  "version": "2.5.3",
+  "version": "3.0.0",
   "description": "project OWT",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,10 @@
     "name": "Bombbom",
     "discord": "キャンディー#9775"
   },
-  "type": "comand_module.js",
+  "type": [
+    "comand_module.js",
+    "dungeonMachine.js"
+  ],
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1009.0",

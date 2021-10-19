@@ -37,12 +37,12 @@ try {
 	  //client.user.setStatus('dnd') // Can be 'available', 'idle', 'dnd', or 'invisible'
 	})
 	client.on("message", async(message)=>{
-		try {
+		//try {
 			//const's
 			const args=message.content.slice().trim().split(/ +/g);
 			const command=args.shift().toLowerCase();
 			//bot return
-			if(message.author.bot) return;
+			if(message.author.bot) {return}
 			//vars
 			var int_chance;
 			var chaveP=["estudou", "correu", "levantou peso", "praticou sua resistência", "praticou magia"]
@@ -89,7 +89,13 @@ try {
 			let manaP=await database.fetch(`manaP_${message.author.id}`)
 			let energyP=await database.fetch(`energyP_${message.author.id}`)
 			//item 
+			let equiped=await database.fetch(`equiped_${message.author.id}`)
 			let wearpons=await database.fetch(`wearpon_${message.author.id}`)
+			let damage=await database.fetch(`damage_${message.author.id}`)
+			// dungeon
+			let dungeon=await database.fetch(`dungeon_${message.author.id}`)
+			//firs time
+			let first=await database.fetch(`f_${message.author.id}`)
 			//person ifs
 			if(intelligence===null) {intelligence=0}
 			if(defense===null) {defense=0}
@@ -98,22 +104,24 @@ try {
 			if(money===null) {money=0}
 			if(mana===null) {mana=0}
 			if(speed===null) {speed=0}
+			if(first===null) {first=0}
 			//bar ifs
 			if(manacharge===null) {manacharge=0}
-			if(livecharge===null) {livecharge=1}
-			if(energycharge===null) {energycharge=1}
+			if(livecharge===null) {livecharge=0}
+			if(energycharge===null) {energycharge=0}
 			//itens ifs
 			if(lifeP===null) {lifeP=0}
 			if(manaP===null) {manaP=0}
 			if(energyP===null) {energyP=5}
-			if(wearpons===null) {wearpons=0}
+			if(equiped===null) {equiped='você não equipou nada'}
+			if(damage===null) {damage=0}
 			//call command_module
-			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client)
+			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage)
 			if(block===1) {DevsBanner()}
-		} catch (error) {
-			message.channel.send(`ERROR: ${error}`)
-			console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
-		}
+		// } catch (error) {
+		// 	message.channel.send(`ERROR: ${error}`)
+		// 	console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
+		// }
 	})
 	client.login(process.env.APP_TOKEN)
 }
