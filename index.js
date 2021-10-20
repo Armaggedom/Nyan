@@ -5,6 +5,13 @@ const database=require("quick.db")
 try {
 	require('dotenv/config')
 } catch (error) {
+	client.user.setPresence({
+        game: {
+            name: 'use $help',
+            type: "STREAMING",
+            url: "https://www.Twitch.tv/monstercat"
+        }
+    });
 	console.log("Modo desenvolvedor desativado")
 } finally {
 	//client const
