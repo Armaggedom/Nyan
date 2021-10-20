@@ -8,7 +8,6 @@ const database=require("quick.db")
 try {
 	require('dotenv/config')
 } catch (error) {
-	client.user.setActivity('use $help', { type: 'STREAMING',  url: "https://www.Twitch.tv/monstercat"});	
 	console.log("Modo desenvolvedor desativado")
 } finally {
 	//arqv request
