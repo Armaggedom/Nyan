@@ -115,7 +115,7 @@
 			"min": 0,
 			"max": 2,
 			"randomLootMoney": {
-				"min": 0,
+				"min": 1,
 				"max": 15
 			}
 		}

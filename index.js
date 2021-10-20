@@ -2,19 +2,21 @@
 const aws = require('aws-sdk');
 const Discord=require("discord.js")
 //client const
-	const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
+const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
 //database
 const database=require("quick.db")
 try {
 	require('dotenv/config')
 } catch (error) {
-	console.log("Modo desenvolvedor desativado")
+	console.log("Developer mode disabled")
 } finally {
 	//arqv request
+	console.log(`requesting mandatory files`)
 	const pack=require("./package.json")
 	const bseason=require("./BotAndSeason.json")
 	const packL=require("./package-lock.json")
 	const commandList=require("./command_module.js")
+	console.log(`successfully requested files. booting`)
 	//vars
 	var prefix='$';
 	//command
@@ -24,9 +26,9 @@ try {
 			'║                                     Bot Online                                      ║\n'+
 			'║Info:                                                                                ║\n'+
 			'║     Dev: Bombbom                                                                    ║\n'+
-			'║     Vers: '+pack.version+', Description: '+pack.description+'                                           ║\n'+
+			'║     Vers: '+pack.version+', Description: '+pack.description+'                                        ║\n'+
 			'║     Creation data: Creation data:09/10 at 18:54 (GMT-3)                             ║\n'+
-			'║     Init time:'+Date()+'        ║\n'+
+			'║     Init time: '+Date()+'       ║\n'+
 			'║                                                                                     ║\n'+
 			'╚═════════════════════════════════════════════════════════════════════════════════════╝\n\n'
 		)
@@ -34,10 +36,10 @@ try {
 		console.log("Init time: ", Date());
 	        if(pack.version != packL.version) {console.log('\x1b[31m%s\x1b[0m', `Warning: API version is different from current pack version and instability or errors may occur during use`)}
 		client.user.setActivity('use $help', { type: 'WATCHING' });
-	  //client.user.setStatus('dnd') // Can be 'available', 'idle', 'dnd', or 'invisible'
+	  //client.user.setStatus(dnd) // Can be 'available', 'idle', 'dnd', or 'invisible'
 	})
 	client.on("message", async(message)=>{
-		//try {
+		try {
 			//const's
 			const args=message.content.slice().trim().split(/ +/g);
 			const command=args.shift().toLowerCase();
@@ -118,10 +120,10 @@ try {
 			//call command_module
 			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage)
 			if(block===1) {DevsBanner()}
-		// } catch (error) {
-		// 	message.channel.send(`ERROR: ${error}`)
-		// 	console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
-		// }
+		} catch (error) {
+			message.channel.send(`ERROR: ${error}`)
+		 	console.log('\x1b[31m%s\x1b[0m', `ERROR: ${error}`)
+		}
 	})
 	client.login(process.env.APP_TOKEN)
 }

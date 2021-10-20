@@ -230,9 +230,9 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			return message.channel.send(`você precisa colocar o comando da dungeon ex dungeon in`)
 		}
 		else if(args[0]==='in') {
-			if(database.get(`dungeon_${message.author.id}`)===false) {
-				if(database.get(`ebar_${message.author.id}`)>0) {
-					database.subtract(`ebar_${message.author.id}`, 1)
+			if(database.get(`dungeon_${message.author.id}`)!==true) {
+				if(energycharge>0) {
+					database.set(`ebar_${message.author.id}`,energycharge-=1)
 					database.set(`dungeon_${message.author.id}`, true)
 					const Embed=new Discord.MessageEmbed()
 						.setTitle(`Dungeon`)
@@ -261,21 +261,9 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			}
 			else if(args[0]===`explorar`) {
 				var keyD;
-				if(database.get(`ebar_${message.author.id}`)<0) {return message.channel.send(`você não tem energia suficiente`)} 
-				database.subtract(`ebar_${message.author.id}`, 1)
-				if(dungeonM("exploration_random")===2) {
-					keyD=1;
-					database.add(`money_${message.author.id}`, dungeonM("exploration_LootMoney"))
-				} 
-				else {
-					keyD=0;
-				}
-				const Embed=new Discord.MessageEmbed()
-					.setTitle(`Dungeon`)
-					.setDescription(bseason.Script.dungeon.script.exploration[keyD]+', seu dinheiro total agora é de: '+ database.get(`money_${message.author.id}`))
-					.setTimestamp()
-					.setFooter(`Dungeon_event on`)
-				return message.channel.send(Embed)
+				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)} 
+				database.set(`ebar_${message.author.id}`,energycharge-=1)
+				return message.channel.send(dungeonM(Discord, message, money))
 			}
 		}
 	}

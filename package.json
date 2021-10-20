@@ -1,7 +1,7 @@
 {
   "name": "Nyan",
-  "version": "3.0.2",
-  "description": "project OWT",
+  "version": "3.0.2.1",
+  "description": "project RPWT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
