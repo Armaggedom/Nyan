@@ -8,17 +8,10 @@ const database=require("quick.db")
 try {
 	require('dotenv/config')
 } catch (error) {
-	client.user.setPresence({
-        game: {
-            name: 'use $help',
-            type: "STREAMING",
-            url: "https://www.Twitch.tv/monstercat"
-        }
-    });
+	client.user.setActivity('use $help', { type: 'STREAMING',  url: "https://www.Twitch.tv/monstercat"});	
 	console.log("Modo desenvolvedor desativado")
 } finally {
 	//arqv request
-	//const config=require("./config.json")
 	const pack=require("./package.json")
 	const bseason=require("./BotAndSeason.json")
 	const packL=require("./package-lock.json")
@@ -41,7 +34,7 @@ try {
 		console.log('\x1b[33m%s\x1b[0m', `Inportant Info: ${bseason.BotInfo.Important}`)
 		console.log("Init time: ", Date());
 	        if(pack.version != packL.version) {console.log('\x1b[31m%s\x1b[0m', `Warning: API version is different from current pack version and instability or errors may occur during use`)}
-		client.user.setActivity('Development', { type: 'WATCHING' });
+		client.user.setActivity('use $help', { type: 'WATCHING' });
 	  //client.user.setStatus('dnd') // Can be 'available', 'idle', 'dnd', or 'invisible'
 	})
 	client.on("message", async(message)=>{
