@@ -1,6 +1,9 @@
 //packs
 const aws = require('aws-sdk');
 const Discord=require("discord.js")
+//client const
+	const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
+//database
 const database=require("quick.db")
 try {
 	require('dotenv/config')
@@ -14,8 +17,6 @@ try {
     });
 	console.log("Modo desenvolvedor desativado")
 } finally {
-	//client const
-	const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
 	//arqv request
 	//const config=require("./config.json")
 	const pack=require("./package.json")
