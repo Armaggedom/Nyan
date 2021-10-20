@@ -70,10 +70,12 @@ make a [pull request](https://github.com/Armaggedom/Nyan/pulls)(https://github.c
 	- Any command derived from photos/videos/gifs/audio and/or messages, among others, that fits into the *NSWF* category must be placed in the command to prohibit the use of this command outside of *NSWF* channels
 
 ### Change classification
-`
-relative change: something related to the bot's main purpose has been changed or added
-non-relative change: changing or adding commands not related to the main objective
-Bugs: bug fixes with few source code changes
-`
+
+> relative change: something related to the bot's main purpose has been changed or added
+
+> non-relative change: changing or adding commands not related to the main objective
+
+> Bugs: bug fixes with few source code changes
+
 
 - Sakleren Devs
