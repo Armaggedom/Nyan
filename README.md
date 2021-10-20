@@ -17,11 +17,11 @@ created by:
 Our project is to develop an RPG bot for Discord servers and in the future if it is successful to expand to another platform.
 
 ### Objetives (comands and structures)
-[x] Build basic program
-[x] Build user status 
-[x] Build shop
-[x] Build economy
-[] Build Dungeon
+- [x] Build basic program
+- [x] Build user status 
+- [x] Build shop
+- [x] Build economy
+- [ ] Build Dungeon
 
 
 ### Information for developers
