@@ -107,12 +107,12 @@ try {
 			if(first===null) {first=0}
 			//bar ifs
 			if(manacharge===null) {manacharge=0}
-			if(livecharge===null) {livecharge=0}
-			if(energycharge===null) {energycharge=0}
+			if(livecharge===null) {livecharge=1}
+			if(energycharge===null) {energycharge=5}
 			//itens ifs
 			if(lifeP===null) {lifeP=0}
 			if(manaP===null) {manaP=0}
-			if(energyP===null) {energyP=5}
+			if(energyP===null) {energyP=0}
 			if(equiped===null) {equiped='você não equipou nada'}
 			if(damage===null) {damage=0}
 			//call command_module

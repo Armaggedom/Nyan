@@ -39,6 +39,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}, para evitar bugs utilize o comando createplayer antes de todos os outros`)
 			.addFields({name: `Comandos: prefixo: '${prefix}'`, value: `\`\`\`${bseason.BotInfo.comandos}\`\`\``, inline: true})
 			.addFields({name: `novidades:`, value: `\`\`\`${bseason.BotInfo.New}\`\`\``,inline: true})
+			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
 			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 			.setTimestamp()
 			.setColor("#000000");
@@ -48,19 +49,6 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 		database-comand-block
 		player-database-comand-block
 	    ------------------------------------ */
-	else  if(command===`${prefix}createplayer`) {
-		if(database.get(`f_${message.author.id}`)!==1) {
-				database.set(`f_${message.author.id}`, 1);
-				database.set(`lifeP_${message.author.id}`, 1);
-				database.set(`energyP_${message.author.id}`, 5);
-				database.set(`money_${message.author.id}`, 0);
-				database.set(`dungeon_${message.author.id}`, false);
-				return message.channel.send(`personagem criado com sucesso`)
-		}
-		else {
-			message.channel.send(`você já criou um personagem`)
-		}
-	}
 	else if(command===`${prefix}infoplayer`) {
 			if (bseason.SeasonControl.acessKey===true) {
 				const Embed=new Discord.MessageEmbed()
@@ -97,9 +85,9 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	else if(command===`${prefix}stats`) {
 		if(database.get(`mana_${message.author.id}`)!==0) {
 			return message.channel.send(
-				progressBar(database.get(`mbar_${message.author.id}`), bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
-				+'\n'+ progressBar(database.get(`lbar_${message.author.id}`), bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
-				+'\n'+ progressBar(database.get(`ebar_${message.author.id}`), bseason.player.stats.energy.Lv[speed], bseason.player.stats.energy.Lv[speed], 2)
+				progressBar(manacharge, bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
+				+'\n'+ progressBar(livecharge, bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
+				+'\n'+ progressBar(energycharge, bseason.player.stats.energy.Lv[speed], bseason.player.stats.energy.Lv[speed], 2)
 				+'```\n'+'dano p/atk: '+database.get(`damage_${message.author.id}`)
 				+'\n'+'defesa: '+defense+'```'
 			)
@@ -111,39 +99,45 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	/*  ------------------------------------
 		person-stats-comand-block
 	    ------------------------------------ */
-	else if(command===`${prefix}usemanapotion`) {
-		if(database.get(`manaP_${message.author.id}`)<=0) {
-			return message.channel.send(`você não tem poções de mana`)
+	else if(command===`${prefix}use`) {
+		if(!args.length) {
+			return message.channel.send(`você precisa colocar o comando use com o item ex use manapotion, lifepotion ou energypotion`)
 		}
-		else {
-			if(database.get(`mana_${message.author.id}`)===0) {
-				return message.channel.send(`poções de mana não ajudam quem não tem magia`)
+		else if(args[0]==='manapotion') {
+			if(database.get(`manaP_${message.author.id}`)<=0) {
+				return message.channel.send(`você não tem poções de mana`)
 			}
 			else {
-				database.subtract(`manaP_${message.author.id}`, 1)
-				database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[mana])
-				return message.channel.send(`você usou uma poção de mana`)
+				if(database.get(`mana_${message.author.id}`)===0) {
+					return message.channel.send(`poções de mana não ajudam quem não tem magia`)
+				}
+				else {
+					database.subtract(`manaP_${message.author.id}`, 1)
+					database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[mana])
+					return message.channel.send(`você usou uma poção de mana`)
+				}
 			}
 		}
-	}
-	else if(command===`${prefix}uselifepotion`) {
-		if(database.get(`lifeP_${message.author.id}`)<=0) {
-			return message.channel.send(`você não tem poções de vida`)
+		else if(args[0]==='lifepotion') {
+			if(database.get(`lifeP_${message.author.id}`)<=0) {
+				return message.channel.send(`você não tem poções de vida`)
+			}
+			else {
+				database.subtract(`lifeP_${message.author.id}`, 1)
+				database.set(`lbar_${message.author.id}`, bseason.player.stats.vitality.Lv[vitality])
+				return message.channel.send(`você usou uma poção de vida`)
+			}
+
 		}
-		else {
-			database.subtract(`lifeP_${message.author.id}`, 1)
-			database.set(`lbar_${message.author.id}`, bseason.player.stats.vitality.Lv[vitality])
-			return message.channel.send(`você usou uma poção de vida`)
-		}
-	}
-	else if(command===`${prefix}useEnergy`) {
-		if(database.get(`energyP_${message.author.id}`)<=0) {
-			return message.channel.send(`você não tem energéticos`)
-		}
-		else {
-			database.subtract(`energyP_${message.author.id}`, 1)
-			database.set(`energyP_${message.author.id}`, bseason.player.stats.energy.Lv[energy])
-			return message.channel.send(`você usou um energético`)
+		else if(args[0]==='energypotion') {
+			if(database.get(`energyP_${message.author.id}`)<=0) {
+				return message.channel.send(`você não tem energéticos`)
+			}
+			else {
+				database.subtract(`energyP_${message.author.id}`, 1)
+				database.set(`energyP_${message.author.id}`, bseason.player.stats.energy.Lv[energy])
+				return message.channel.send(`você usou um energético`)
+			}
 		}
 	}
 	/*  ------------------------------------
