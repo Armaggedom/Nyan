@@ -1,7 +1,7 @@
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
 const dungeonM=require("./dungeonMachine.js")
-function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, money, mana, database, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage) {
+function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage, energyP) {
 	//function-no imported
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar
@@ -50,51 +50,49 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 		player-database-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}infoplayer`) {
-			if (bseason.SeasonControl.acessKey===true) {
-				const Embed=new Discord.MessageEmbed()
-					.setAuthor(`RPG: season ${bseason.SeasonControl.season}`, `${bseason.SeasonControl.img.seasonImg}`)
-					.setThumbnail(`${message.author.displayAvatarURL({format: "png"})}`)
-					.setTitle(`Info Player`)
-					.setDescription(`Informações do seu personagem:\nNome: ${message.author.username}`)
-					.addFields({name: '\u200b', value: '\u200b'})
-					.addFields({name: `força`, value: `${strength}`, inline: false})
-					.addFields({name: `agilidade`, value: `${speed}`, inline: false})
-					.addFields({name: `vitalidade`, value: `${vitality}`, inline: false})
-					.addFields({name: `inteligência [Developing]`, value: `${intelligence}`, inline: false})
-					.addFields({name: `Mana`, value: `${mana}`, inline: false})
-					.addFields({name: `Arma equipada`, value: database.get(`equiped_${message.author.id}`), inline: false})
-					.setFooter(`userInfo ${message.author.username}`)
-					.setTimestamp()
-					.setColor("#000000");
-				return message.channel.send(Embed)
-			} else {
-				const Embed=new Discord.MessageEmbed()
-					.setAuthor(`RPG: season ${bseason.SeasonControl.season}`, `${bseason.SeasonControl.img.seasonImg}`)
-					.setThumbnail(`${message.author.displayAvatarURL({format: "png"})}`)
-					.setTitle(`Em breve`)
-					.setDescription(`Uma nova season está por vir`)
-					.setImage(`${bseason.SeasonControl.seasonImg}`)
-					.setColor("#000000");
-				return message.channel.send(Embed)
-			}
+		if (bseason.SeasonControl.acessKey===true) {
+			const Embed=new Discord.MessageEmbed()
+				.setAuthor(`RPG: season ${bseason.SeasonControl.season}`, `${bseason.SeasonControl.img.seasonImg}`)
+				.setThumbnail(`${message.author.displayAvatarURL({format: "png"})}`)
+				.setTitle(`Info Player`)
+				.setDescription(`Informações do seu personagem:\nNome: ${message.author.username}`)
+				.addFields({name: '\u200b', value: '\u200b'})
+				.addFields({name: `força`, value: `${strength}`, inline: false})
+				.addFields({name: `agilidade`, value: `${speed}`, inline: false})
+				.addFields({name: `vitalidade`, value: `${vitality}`, inline: false})
+				.addFields({name: `inteligência [Developing]`, value: `${intelligence}`, inline: false})
+				.addFields({name: `Mana`, value: `${mana}`, inline: false})
+				.addFields({name: `Arma equipada`, value: database.get(`equiped_${message.author.id}`), inline: false})
+				.setFooter(`userInfo ${message.author.username}`)
+				.setTimestamp()
+				.setColor("#000000");
+			return message.channel.send(Embed)
+		} else {
+			const Embed=new Discord.MessageEmbed()
+				.setAuthor(`RPG: season ${bseason.SeasonControl.season}`, `${bseason.SeasonControl.img.seasonImg}`)
+				.setThumbnail(`${message.author.displayAvatarURL({format: "png"})}`)
+				.setTitle(`Em breve`)
+				.setDescription(`Uma nova season está por vir`)
+				.setImage(`${bseason.SeasonControl.seasonImg}`)
+				.setColor("#000000");
+			return message.channel.send(Embed)
+		}
 	}
 	 else if(command===`give`) {
 	 	const amount=parseInt(args[0]);
 	 	database.set(`money_${message.author.id}`, amount)
 	 }
 	else if(command===`${prefix}stats`) {
-		if(database.get(`mana_${message.author.id}`)!==0) {
-			return message.channel.send(
-				progressBar(manacharge, bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
-				+'\n'+ progressBar(livecharge, bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
-				+'\n'+ progressBar(energycharge, bseason.player.stats.energy.Lv[speed], bseason.player.stats.energy.Lv[speed], 2)
-				+'```\n'+'dano p/atk: '+database.get(`damage_${message.author.id}`)
-				+'\n'+'defesa: '+defense+'```'
-			)
-		} 
-		else {
-			return message.channel.send(`você não tem magia`)
-		}
+		if(manacharge<0) {manacharge=0}
+		if(livecharge<0) {livecharge=0}
+		if(energycharge<0) {energycharge=0}
+		return message.channel.send(
+			progressBar(manacharge, bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
+			+'\n'+ progressBar(livecharge, bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
+			+'\n'+ progressBar(energycharge, bseason.player.stats.energy.Lv[speed], bseason.player.stats.energy.Lv[speed], 2)
+			+'```\n'+'dano p/atk: '+database.get(`damage_${message.author.id}`)
+			+'\n'+'defesa: '+defense+'```'
+		) 
 	}
 	/*  ------------------------------------
 		person-stats-comand-block
@@ -135,7 +133,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			}
 			else {
 				database.subtract(`energyP_${message.author.id}`, 1)
-				database.set(`energyP_${message.author.id}`, bseason.player.stats.energy.Lv[energy])
+				database.set(`ebar_${message.author.id}`, bseason.player.stats.energy.Lv[speed])
 				return message.channel.send(`você usou um energético`)
 			}
 		}
@@ -196,7 +194,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	else if(command===`${prefix}inventario`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`inventario`)
-			.setDescription('você tem: \n'+lifeP+' poções de vida \n'+manaP+' poções de mana \nvocê tem as seguintes armas: '+database.get(`wearpon_${message.author.id}.name`))
+			.setDescription('você tem: \n'+lifeP+' poções de vida \n'+manaP+' poções de mana \n'+energyP+' poções de energia \nvocê tem as seguintes armas: '+database.get(`wearpon_${message.author.id}.name`))
 		return message.channel.send(Embed)
 	}
 	else if(command===`${prefix}equip`) {
@@ -262,8 +260,13 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			else if(args[0]===`explorar`) {
 				var keyD;
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)} 
-				database.set(`ebar_${message.author.id}`,energycharge-=1)
-				return message.channel.send(dungeonM(Discord, message, money))
+			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
+				return message.channel.send(dungeonM("Def", Discord, message))
+			}
+			else if(args[0]===`atacar`) {
+				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
+			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
+				return message.channel.send(dungeonM("battle", Discord, message, money))
 			}
 		}
 	}
