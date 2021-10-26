@@ -1,11 +1,11 @@
 const bseason=require("./BotAndSeason.json")
 /*
-* Dungeon Machine V:1.0
+* Dungeon Machine V:2.0.2-BugsInstable
 * keyD=0 dungeon script false
 * keyD=1 dungeon script true
-* battle
+* battle system
 *	mob defense - user attack = damage on mob & user defense - mob attack = damage on user 
-* if (damage<0) {damage*1=damage 100%chance}
+* if (damage<0) {damage=damage 100%chance}
 *	if (damage===0) {damage=1 (50% chance)}
 *	if (damage>0) {damage=null (0% chance)}
 * mob dead: 
@@ -13,7 +13,7 @@ const bseason=require("./BotAndSeason.json")
 * if life_mob<0=mob not found
 * if life_mob>0= mob found but not died
 * bot.json randomExploration min=0 max=2
-* 																										Bugs V:2.0.1 livechard don't subtract
+* Arq V:2.0.2 Bugs livecharge don't start in 1 || explorar bug in one time
 */
 var keyD=0;
 var mobID=0
@@ -94,12 +94,16 @@ function BattleMode(mobID, message) {
 	}
 	function MobDamage(mobID) {
 		var damageMob=Math.abs(defense - PersonalMob.Damage)
+		console.log(damageMob+'damage mob')
 		if(livecharge==0) {
 			Dead(message)
 		}
 		else if(damageMob>0) {
-			livecharge-=damageMob
-			console.log(livecharge)
+			livecharge=Math.round(livecharge-damageMob)
+			if(livecharge===0) {
+				Dead(message)
+			}
+			else{return}
 		}
 		return damageMob
 	}

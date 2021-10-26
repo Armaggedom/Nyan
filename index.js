@@ -1,3 +1,8 @@
+/*
+* Dev: bombbom
+* Arq V: 3.0.2.3
+*/
+
 //packs
 const aws = require('aws-sdk');
 global.Discord=require("discord.js")
@@ -121,7 +126,7 @@ try {
 			if(PersonalMob===null) {PersonalMob=0}
 			if(GlobalMobKill===null) {GlobalMobKill=0}
 			//call command_module
-			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage, energyP)
+			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP)
 			if(block===1) {DevsBanner()}
 		// } catch (error) {
 		// 	message.channel.send(`ERROR: ${error}`)

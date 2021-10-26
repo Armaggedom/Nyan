@@ -1,7 +1,7 @@
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
 const dungeonM=require("./dungeonMachine.js")
-function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, livecharge, energycharge, damage, energyP) {
+function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
 	//function-no imported
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar
@@ -84,11 +84,11 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	 }
 	else if(command===`${prefix}stats`) {
 		if(manacharge<0) {manacharge=0}
-		if(livecharge<0) {livecharge=0}
+		//if(livecharge<0) {livecharge=0}
 		if(energycharge<0) {energycharge=0}
 		return message.channel.send(
 			progressBar(manacharge, bseason.player.stats.mana.Lv[mana], bseason.player.stats.mana.Lv[mana], 0) 
-			+'\n'+ progressBar(livecharge, bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
+			+'\n'+ progressBar(database.get(`lbar_${message.author.id}`), bseason.player.stats.vitality.Lv[vitality], bseason.player.stats.vitality.Lv[vitality], 1)
 			+'\n'+ progressBar(energycharge, bseason.player.stats.energy.Lv[speed], bseason.player.stats.energy.Lv[speed], 2)
 			+'```\n'+'dano p/atk: '+database.get(`damage_${message.author.id}`)
 			+'\n'+'defesa: '+defense+'```'
@@ -266,7 +266,8 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			else if(args[0]===`atacar`) {
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
 			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
-				return message.channel.send(dungeonM("battle", Discord, message, money))
+				message.channel.send(dungeonM("battle", Discord, message, money))
+				return database.set(`lbar_${message.author.id}`, livecharge)
 			}
 		}
 	}
