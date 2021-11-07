@@ -1,6 +1,6 @@
 /*
 * Dev: bombbom
-* Arq V: 3.0.2.3
+* Arq V: 3.0.3 OBS: VERSIONS < 3.0.3 NO LONGER SUPPORTED
 */
 
 //packs
@@ -27,15 +27,15 @@ try {
 	//command
 	client.on("ready", ()=>{
 		console.log(
-			'╔═════════════════════════════════════════════════════════════════════════════════════╗\n'+
-			'║                                     Bot Online                                      ║\n'+
-			'║Info:                                                                                ║\n'+
-			'║     Dev: Bombbom                                                                    ║\n'+
-			'║     Vers: '+pack.version+', Description: '+pack.description+'                                        ║\n'+
-			'║     Creation data: Creation data:09/10 at 18:54 (GMT-3)                             ║\n'+
-			'║     Init time: '+Date()+'       ║\n'+
-			'║                                                                                     ║\n'+
-			'╚═════════════════════════════════════════════════════════════════════════════════════╝\n\n'
+			'\x1B[31m╔═════════════════════════════════════════════════════════════════════════════════════╗\n'+
+			'║                                     \x1b[33mBot Online  \x1b[31m                                    ║\n'+
+			'\x1B[31m║\x1b[0mInfo:\x1B[31m                                                                                ║\n'+
+			'\x1B[31m║     \x1b[0mDev: Bombbom\x1B[31m                                                                    ║\n'+
+			'\x1B[31m║     \x1b[0mVers: '+pack.version+', Description: '+pack.description+'\x1B[31m                                        ║\n'+
+			'\x1B[31m║     \x1b[0mCreation data: Creation data:09/10 at 18:54 (GMT-3)\x1B[31m                             ║\n'+
+			'\x1B[31m║     \x1b[0mInit time: '+Date()+'\x1B[31m       ║\n'+
+			'\x1B[31m║                                                                                     ║\n'+
+			'╚═════════════════════════════════════════════════════════════════════════════════════╝\n\n\x1b[0m'
 		)
 		console.log('\x1b[33m%s\x1b[0m', `Inportant Info: ${bseason.BotInfo.Important}`)
 		console.log("Init time: ", Date());
@@ -79,6 +79,8 @@ try {
 			/*  ------------------------------------
 				database-block
 			    ------------------------------------ */
+			//anti-bug let
+			global.AntiBug=await database.fetch(`AntiBug_${message.author.id}`)
 			//personal lets
 			let intelligence=await database.fetch(`intelligence_${message.author.id}`)
 			let strength=await database.fetch(`strength_${message.author.id}`)
@@ -103,7 +105,9 @@ try {
 			global.dungeon=await database.fetch(`dungeon_${message.author.id}`)
 			// mobs
 			global.PersonalMob=await database.fetch(`mob_${message.author.id}`)
-			let GlobalMobKill=await database.fetch(`mob_${message.author.id}`)
+			let GlobalMobKill=await database.fetch(`Gmob_${message.author.id}`)
+			//anti-bug if
+			if(AntiBug===null) {AntiBug=false}
 			//person ifs
 			if(intelligence===null) {intelligence=0}
 			if(defense===null) {defense=0}

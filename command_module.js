@@ -1,19 +1,57 @@
+// Arq V:3.0.2.4 OBS: energy-- in dungeon commented to test
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
 const dungeonM=require("./dungeonMachine.js")
 function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
-	//function-no imported
-	function progressBar (value, maxValue, size, keyF) {
-		const percentage = value / maxValue; // Calculate the percentage of the bar
-		const progress = Math.round((size * percentage)); // Calculate the number of square caracters to fill the progress side.
-		const emptyProgress = size - progress; // Calculate the number of dash caracters to fill the empty progress side.
-		const progressText = '▇'.repeat(progress); // Repeat is creating a string with progress * caracters in it
-		const emptyProgressText = '—'.repeat(emptyProgress); // Repeat is creating a string with empty progress * caracters in it
-		const percentageText = Math.round(percentage * 100)+'%'; // Displaying the percentage of the bar
-		const bar = '```'+bseason.Script.Key.KeyF[keyF]+'\n['+progressText+emptyProgressText+']'+percentageText+'```'; // Creating the bar
-		return bar;
+	// AntiBug command Border
+	if(command===`${prefix}playerbuild`) {
+		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
+		try {
+			message.channel.send(`personagem sendo criado, aguarde...`)
+			.then(async(msg)=>{
+				msg.edit('iniciando log aguarde...')
+				msg.edit('installing your id with the variable: \'lbar_\'')
+				await database.set(`lbar_${message.author.id}`, bseason.player.stats.vitality.Lv[0])
+				msg.edit('installation completed, booting next')
+				msg.edit('installing your id with the variable: \'mana_\'')
+				await database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[0])
+				msg.edit('installation completed, booting next')
+				msg.edit('installing your id with the variable \'speed_\'')
+				await database.set(`ebar_${message.author.id}`, bseason.player.stats.energy.Lv[0])
+				msg.edit('installation completed, booting next')
+				msg.edit('installing your id with the variable: \'money_\'')
+				await database.set(`money_${message.author.id}`, 0)
+				msg.edit('installation completed, booting next')
+				msg.edit('installing your id with the variable: \'equiped_\'')
+				await database.set(`equiped_${message.author.id}`, 'você não equipou nada')
+				msg.edit('installation completed, booting next')
+				msg.edit('installing your id with the variable: \'mob_\'')
+				await database.set(`mob_${message.author.id}`, 0)
+				msg.edit('installation completed, booting next')
+				//installation END
+				msg.edit('installing your id with the variable: \'AntiBug_\'')
+				await database.set(`AntiBug_${message.author.id}`, true)
+				await msg.edit('installation finished')
+			})
+		} 
+		catch (error) {
+			message.channel.send('Error: '+ error+ ' Instalation aborted')
+			try {
+				database.delete(`lbar_${message.author.id}`)
+				database.delete(`mbar_${message.author.id}`)
+				database.delete(`ebar_${message.author.id}`)
+				database.delete(`money_${message.author.id}`)
+				database.delete(`equiped_${message.author.id}`)
+				database.delete(`mob_${message.author.id}`)
+				database.delete(`AntiBug_${message.author.id}`)
+			}
+			catch(error) {return}
+		}
+		finally{return}
 	}
-	//bot test
+	/*  ------------------------------------
+		default-command-block
+		------------------------------------ */
 	if(command===`${prefix}info`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`BOT: ${client.user.username}`)
@@ -30,9 +68,6 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			.setColor("#000000");
 		return message.channel.send(Embed)
 	}
-	/*  ------------------------------------
-		default-command-block
-		----,-------------------------------- */
 	else if(command===`${prefix}help`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`Help`)
@@ -45,11 +80,24 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			.setColor("#000000");
 		return message.channel.send(Embed)
 	}
+	//AntiBug Border
+	if(database.get(`AntiBug_${message.author.id}`)===false | database.get(`AntiBug_${message.author.id}`)===null) {return}
+	//function-progressBar
+	function progressBar (value, maxValue, size, keyF) {
+		const percentage = value / maxValue; // Calculate the percentage of the bar
+		const progress = Math.round((size * percentage)); // Calculate the number of square caracters to fill the progress side.
+		const emptyProgress = size - progress; // Calculate the number of dash caracters to fill the empty progress side.
+		const progressText = '▇'.repeat(progress); // Repeat is creating a string with progress * caracters in it
+		const emptyProgressText = '—'.repeat(emptyProgress); // Repeat is creating a string with empty progress * caracters in it
+		const percentageText = Math.round(percentage * 100)+'%'; // Displaying the percentage of the bar
+		const bar = '```'+bseason.Script.Key.KeyF[keyF]+'\n['+progressText+emptyProgressText+']'+percentageText+'```'; // Creating the bar
+		return bar;
+	}
 	/*  ------------------------------------
 		database-comand-block
 		player-database-comand-block
 	    ------------------------------------ */
-	else if(command===`${prefix}infoplayer`) {
+	if(command===`${prefix}infoplayer`) {
 		if (bseason.SeasonControl.acessKey===true) {
 			const Embed=new Discord.MessageEmbed()
 				.setAuthor(`RPG: season ${bseason.SeasonControl.season}`, `${bseason.SeasonControl.img.seasonImg}`)
@@ -78,10 +126,10 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			return message.channel.send(Embed)
 		}
 	}
-	 else if(command===`give`) {
+	else if(command===`give`) {
 	 	const amount=parseInt(args[0]);
 	 	database.set(`money_${message.author.id}`, amount)
-	 }
+	}
 	else if(command===`${prefix}stats`) {
 		if(manacharge<0) {manacharge=0}
 		//if(livecharge<0) {livecharge=0}

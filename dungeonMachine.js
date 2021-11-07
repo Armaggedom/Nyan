@@ -13,7 +13,7 @@ const bseason=require("./BotAndSeason.json")
 * if life_mob<0=mob not found
 * if life_mob>0= mob found but not died
 * bot.json randomExploration min=0 max=2
-* Arq V:2.0.2 Bugs livecharge don't start in 1 || explorar bug in one time
+* Arq V:2.0.2 Bugs || explorar bug in one time
 */
 var keyD=0;
 var mobID=0
