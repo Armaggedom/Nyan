@@ -10,9 +10,9 @@
 		"Developing": true
 	},	
 	"BotInfo": {
-		"Important":"3.0.2 version, bugs fix", 
-		"New": "Swords and Potion \npreparando para retirar o bloq dos comandos econômicos",
-		"comandos": "createPlayer \ninfo \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nuse \ninventario \ndungeon"
+		"Important":"3.0.2.4 global.version, bug fix: database init. \n3.0.3 index.js.version, version < 3.0.3 Not suported \n2.0.2 dungeonMachine.version, Critical bugs", 
+		"New": "Font Update \nSystem: \"AntiBug \"created",
+		"comandos": "playerbuild \ninfo \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nuse \ninventario \ndungeon"
 	},
 	"SeasonControl": {
 		"season":"1",

@@ -2,6 +2,8 @@
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
 const dungeonM=require("./dungeonMachine.js")
+
+var color=000000;
 function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
@@ -59,10 +61,11 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 				'╔══════════════════════════\n'+
 				'║ BOT: project RPWT [Role Play Word Text]\n'+
 				'║ Version: '+app_pack.version+'\n'+
+				'║ GitHub: https://github.com/Armaggedom/Nyan\n'+
 				'╚══════════════════════════'
 				)
 			.addFields({name: `M-Dev:`, value: `キャンディー`, inline: true})
-			.setAuthor('GitHub', 'https://cdn-icons-png.flaticon.com/512/25/25231.png', 'https://github.com/Armaggedom/Nyan')
+			.setAuthor('MyGitHub', 'https://cdn-icons-png.flaticon.com/512/25/25231.png', 'https://github.com/Armaggedom/Nyan')
 			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 			.setTimestamp()
 			.setColor("#000000");
@@ -71,7 +74,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 	else if(command===`${prefix}help`) {
 		const Embed=new Discord.MessageEmbed()
 			.setTitle(`Help`)
-			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}, para evitar bugs utilize o comando createplayer antes de todos os outros`)
+			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}, para utilizar comandos de personagem, você deve utilizar o comando playerbuild como primeiro comando`)
 			.addFields({name: `Comandos: prefixo: '${prefix}'`, value: `\`\`\`${bseason.BotInfo.comandos}\`\`\``, inline: true})
 			.addFields({name: `novidades:`, value: `\`\`\`${bseason.BotInfo.New}\`\`\``,inline: true})
 			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
@@ -81,7 +84,9 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 		return message.channel.send(Embed)
 	}
 	//AntiBug Border
-	if(database.get(`AntiBug_${message.author.id}`)===false | database.get(`AntiBug_${message.author.id}`)===null) {return}
+	if(database.get(`AntiBug_${message.author.id}`)===false | database.get(`AntiBug_${message.author.id}`)===null) {
+		return message.channel.send(`você deve usar o comando ${prefix}playerbuild antes, para usar esse comando`)
+	}
 	//function-progressBar
 	function progressBar (value, maxValue, size, keyF) {
 		const percentage = value / maxValue; // Calculate the percentage of the bar

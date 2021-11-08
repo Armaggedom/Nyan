@@ -37,7 +37,7 @@ try {
 			'\x1B[31m║                                                                                     ║\n'+
 			'╚═════════════════════════════════════════════════════════════════════════════════════╝\n\n\x1b[0m'
 		)
-		console.log('\x1b[33m%s\x1b[0m', `Inportant Info: ${bseason.BotInfo.Important}`)
+		console.log('\x1b[33m%s\x1b[0m', `Inportant Info: \n${bseason.BotInfo.Important}`)
 		console.log("Init time: ", Date());
 	        if(pack.version != packL.version) {console.log('\x1b[31m%s\x1b[0m', `Warning: API version is different from current pack version and instability or errors may occur during use`)}
 		client.user.setActivity('use $help', { type: 'WATCHING' });
