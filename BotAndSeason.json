@@ -116,38 +116,6 @@
 	"dungeon": {
 		"images": {
 			"dungeon_in_out": "https://static.wikia.nocookie.net/the-hidden-dungeon-only-i-can-enter/images/e/e9/Olivia_Dungeon_Gate.jpg/revision/latest/scale-to-width-down/250?cb=20210117183304"
-		},
-		"randomExploration": {
-			"min": 1,
-			"max": 1,
-			"randomLootMoney": {
-				"min": 1,
-				"max": 15
-			}
-		},
-		"mob": {
-			"mobrandom":{
-				"min": 0,
-				"max": 0,
-				"def": [{
-					"Name":"slime",
-					"Life": 1,
-					"Defense": 0,
-					"Damage": 1,
-					"Loot": 1
-				}],
-				"mobID": [
-						"slime",
-						1,
-						0,
-						1,
-						1
-				],
-				"mobLootRandom": {
-					"min": -1,
-					"max": 0
-				}
-			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 /*
 * Dev: bombbom
 * Arq V: 3.0.3 OBS: VERSIONS < 3.0.3 NO LONGER SUPPORTED
+* Freezed: march to system.js
 */
 
 //packs
@@ -130,7 +131,7 @@ try {
 			if(PersonalMob===null) {PersonalMob=0}
 			if(GlobalMobKill===null) {GlobalMobKill=0}
 			//call command_module
-			var block=await commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP)
+			var block=await commandList(command, message, prefix, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP)
 			if(block===1) {DevsBanner()}
 		// } catch (error) {
 		// 	message.channel.send(`ERROR: ${error}`)

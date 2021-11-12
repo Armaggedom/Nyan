@@ -1,6 +1,6 @@
 const bseason=require("./BotAndSeason.json")
 /*
-* Dungeon Machine V:2.0.2-BugsInstable
+* Dungeon Machine V:2.0.3-OffLine
 * keyD=0 dungeon script false
 * keyD=1 dungeon script true
 * battle system
@@ -11,22 +11,116 @@ const bseason=require("./BotAndSeason.json")
 * mob dead: 
 * if life_mob=0=recompense
 * if life_mob<0=mob not found
-* if life_mob>0= mob found but not died
+* if life_mob>0=mob found but not died
 * bot.json randomExploration min=0 max=2
-* Arq V:2.0.2 Bugs || explorar bug in one time
+* Arq V:2.0.2 Bugs || explorar bug in one time: cannot send a empy message
+* Rebulding ALL code version final 3.0.0
 */
+/*
 var keyD=0;
 var mobID=0
-var number_primary=0
-function dungeonM(argsType, Discord, message) {
-	number_primary=getRandomIntInclusive(bseason.dungeon.randomExploration.min, bseason.dungeon.randomExploration.max)
+var number_primary=0*/
+function dungeonM(argsType, message) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*	number_primary=getRandomIntInclusive(bseason.dungeon.randomExploration.min, bseason.dungeon.randomExploration.max)
 	/*
 	* Structure 		 |--- 0 return
 	* Primary number ---- 1 mob appear	---- (secondary number = mob ID)
 	*								 |----2 money found ---- (secondary number = reward)
-	*/
+	
 	if(argsType==="Def") {
 		if(number_primary===2) {
+			console.log(`if1`)
 			number_primary=null
 			//returned 2 == money reward
 			keyD=1;
@@ -35,16 +129,20 @@ function dungeonM(argsType, Discord, message) {
 		}
 
 		else if(number_primary===1) {
+console.log(`if2`)
 			number_primary=null
 			mobID=getRandomIntInclusive(bseason.dungeon.mob.mobrandom.min, bseason.dungeon.mob.mobrandom.max)
-			return MobSpawn(mobID, message) // min =0, max =0 => 0 = 100% => mob ID: 0 = 100%
+			MobSpawn(mobID, message) // min =0, max =0 => 0 = 100% => mob ID: 0 = 100%
+			console.log(`saiu`)
 		}
 		// return 1
 		else {
+console.log(`if3`)
 			keyD=0
 			number_primary=null
 			return EmbedMoneyF(Discord)
 		}
+		return 0
 	}
 	else if(argsType=== "battle") {
 		return BattleMode(mobID)
@@ -63,7 +161,10 @@ function MobSpawn(mobID, message) {
 	// mob global pass to local 
 	keyD=2;
 	if(database.get(`mob_${message.author.id}.ID_Name`)===null) {
+		console.log(`indo ao addmob`)
 		AddMob(mobID, message)
+		console.log(`indo ao mob MobAppear`)
+		MobAppear(message)
 	}
 	else if(database.get(`mob_${message.author.id}.Life`)===0) {
 		DelMob(mobID, message)
@@ -112,7 +213,7 @@ function BattleMode(mobID, message) {
 	const Embed=new Discord.MessageEmbed()
 		.setTitle(`Dungeon`)
 		.setDescription(bseason.Script.dungeon.script.battle[keyD]+Damage(mobID)*1+' de dano e ele te ataca de volta dando '+MobDamage(mobID)+' de dano')
-		.addFields({name: `Nome do mob:`, value: PersonalMob.ID_Name, inline: false})
+		.addFields({name: `Nome do mob:`, value: database.get(`PersonalMob_${message.author.id}.ID_Name`), inline: false})
 		.addFields({name: `Vida:`, value: PersonalMob.Life, inline: true})
 		.addFields({name: `Defesa:`, value: PersonalMob.Defense*1, inline: true})
 		.setTimestamp()	
@@ -137,6 +238,7 @@ function AddMob(mobID, message) {
 	database.push(`mob_${message.author.id}.Defense`, bseason.dungeon.mob.mobrandom.mobID[mobID+2])
 	database.push(`mob_${message.author.id}.Damage`,  bseason.dungeon.mob.mobrandom.mobID[mobID+3])
 	database.push(`mob_${message.author.id}.Loot`,    bseason.dungeon.mob.mobrandom.mobID[mobID+4])
+	return 0
 }
 // function Delet mob
 function DelMob(mobID, message) {
@@ -185,4 +287,6 @@ function EmbedMoneyF(Discord, message) {
 		.setFooter(`Dungeon_event on`)
 	return Embed
 }
+
+// comment border */
 module.exports = dungeonM;

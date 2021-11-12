@@ -1,10 +1,8 @@
-// Arq V:3.0.2.4 OBS: energy-- in dungeon commented to test
+// Arq V:3.0.3 OBS: energy-- in dungeon commented to test && Dungeon in developing
 const bseason=require("./BotAndSeason.json")
 const app_pack=require("./package.json")
 const dungeonM=require("./dungeonMachine.js")
-
-var color=000000;
-function commandList(command, message, prefix, Discord, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
+function commandList(command, message, prefix, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
 		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
@@ -27,9 +25,9 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 				msg.edit('installing your id with the variable: \'equiped_\'')
 				await database.set(`equiped_${message.author.id}`, 'você não equipou nada')
 				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'mob_\'')
-				await database.set(`mob_${message.author.id}`, 0)
-				msg.edit('installation completed, booting next')
+				// msg.edit('installing your id with the variable: \'mob_\'')
+				// await database.set(`mob_${message.author.id}`, 0)
+				// msg.edit('installation completed, booting next')
 				//installation END
 				msg.edit('installing your id with the variable: \'AntiBug_\'')
 				await database.set(`AntiBug_${message.author.id}`, true)
@@ -83,9 +81,58 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			.setColor("#000000");
 		return message.channel.send(Embed)
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	else if(command===`${prefix}rainbow`) {
+		const Embed=new Discord.MessageEmbed()
+		.setTitle(`EMBED`)
+		.setDescription(`textotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotextotexto`)
+		message.channel.send(Embed)
+		.then(async(msg)=>{ 
+			while(true) {
+				Embed.setColor("#00008B");
+				await msg.edit(Embed)
+				Embed.setColor("#008000");
+				await msg.edit(Embed)
+				Embed.setColor("#8B008B");
+				await msg.edit(Embed)
+				Embed.setColor("#FF0000");
+				await msg.edit(Embed)
+				Embed.setColor("#FF1493");
+				await msg.edit(Embed)
+				Embed.setColor("#FFFF00");
+				await msg.edit(Embed)
+			}
+		})
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//AntiBug Border
 	if(database.get(`AntiBug_${message.author.id}`)===false | database.get(`AntiBug_${message.author.id}`)===null) {
-		return message.channel.send(`você deve usar o comando ${prefix}playerbuild antes, para usar esse comando`)
+		return //message.channel.send(`você deve usar o comando ${prefix}playerbuild antes, para usar esse comando`)
 	}
 	//function-progressBar
 	function progressBar (value, maxValue, size, keyF) {
@@ -283,7 +330,7 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 		else if(args[0]==='in') {
 			if(database.get(`dungeon_${message.author.id}`)!==true) {
 				if(energycharge>0) {
-					database.set(`ebar_${message.author.id}`,energycharge-=1)
+					database.set(`ebar_${message.author.id}`, energycharge-=1)
 					database.set(`dungeon_${message.author.id}`, true)
 					const Embed=new Discord.MessageEmbed()
 						.setTitle(`Dungeon`)
@@ -312,16 +359,17 @@ function commandList(command, message, prefix, Discord, random_chance, intellige
 			}
 			else if(args[0]===`explorar`) {
 				var keyD;
-				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)} 
-			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
-				return message.channel.send(dungeonM("Def", Discord, message))
-			}
-			else if(args[0]===`atacar`) {
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
 			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
+				return message.channel.send(dungeonM("argumento", Discord, message))
+			}
+		/*	else if(args[0]===`atacar`) {
+				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
+				database.set(`ebar_${message.author.id}`,energycharge-=1)
 				message.channel.send(dungeonM("battle", Discord, message, money))
 				return database.set(`lbar_${message.author.id}`, livecharge)
 			}
+		*/
 		}
 	}
 	else {return}
