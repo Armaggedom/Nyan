@@ -1,28 +1,182 @@
 const bseason=require("./BotAndSeason.json")
 /*
 * Dungeon Machine V:2.0.3-OffLine
-* keyD=0 dungeon script false
-* keyD=1 dungeon script true
-* battle system
-*	mob defense - user attack = damage on mob & user defense - mob attack = damage on user 
-* if (damage<0) {damage=damage 100%chance}
-*	if (damage===0) {damage=1 (50% chance)}
-*	if (damage>0) {damage=null (0% chance)}
-* mob dead: 
-* if life_mob=0=recompense
-* if life_mob<0=mob not found
-* if life_mob>0=mob found but not died
-* bot.json randomExploration min=0 max=2
-* Arq V:2.0.2 Bugs || explorar bug in one time: cannot send a empy message
-* Rebulding ALL code version final 3.0.0
-*/
-/*
-var keyD=0;
-var mobID=0
-var number_primary=0*/
-function dungeonM(argsType, message) {
-
+* V:2.0.3.5 rebuild
+* Arq V:2.0.3
+* Rebulding ALL code, final version 2.0.4
+* version < 2.0.4 dont suport
+* var keyD=0;
+* var mobID=0
+* var number_primary=0
+--------------------------------------------------------------------------------------- */
+// Random machine
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+/*  ------------------------------------
+main-machine-block
+------------------------------------ */
+function dungeonM(argsType, message) {
+	if(argsType==="explorer") {
+		var eventRandom=getRandomIntInclusive(bseason.dungeon.system.eventRandom.min, bseason.dungeon.system.eventRandom.max)
+		/*  ------------------------------------
+		mob-summoner/summoned-block
+		------------------------------------ */
+		if(mobID===false && eventRandom===3 || mobID===null && eventRandom===3 ) {
+			// create mob //mob found
+			createMobID(message)
+			return GlobalEmbed(message, "001")
+		}
+		else if(mobID!==false || mobID!==null) {return} // embed | ERROR: mobID aready found
+		else {return} //ERROR escape
+	}
+	// args ATTACK
+	else if(argsType==="attack" && mobID!=false || argsType==="attack" && mobID!==null) {
+		//Damage system here//
+		return GlobalEmbed(message, "002")
+	}
+	else if(argsType==="test") {//test embeds
+		console.log('deletando o mob')
+		return deleteMobID(message)
+	}
+	else {return}
+}
+/*  ------------------------------------
+mob-creation_and_delete-block
+------------------------------------ */
+function createMobID(message) {
+	var mobRandom=getRandomIntInclusive(bseason.dungeon.system.mobRandom.min, bseason.dungeon.system.mobRandom.max)
+	//database block
+	database.push(`mobID_${message.author.id}.IDname`, bseason.dungeon.system.mobList.Names[mobRandom])
+	database.push(`mobID_${message.author.id}.IDlife`, bseason.dungeon.system.mobList.Life[mobRandom])
+	database.push(`mobID_${message.author.id}.IDdamage`, bseason.dungeon.system.mobList.Damage[mobRandom])
+	database.push(`mobID_${message.author.id}.IDdefense`, bseason.dungeon.system.mobList.Defense[mobRandom])
+}
+function deleteMobID(message) {
+	database.delete(`mobID_${message.author.id}`)
+}
+/*  ------------------------------------
+multiple_use-function
+------------------------------------ */
+function GlobalEmbed(message, TypeEmbedID) {
+	// Global.embed | return embed
+	//transform TypeEmbedID.string to int
+	if(TypeEmbedID==="001") {
+		database.set(`EID_${message.author.id}`, 1)
+	}
+	else if(TypeEmbedID==="002") {
+		database.set(`EID_${message.author.id}`, 2)
+	}
+	//-------------
+	if(TypeEmbedID==="001") {
+		return Geral_Embed(message, TypeEmbedID)
+	}
+	else if(TypeEmbedID==="002") {
+		return Attack_Embed(message, TypeEmbedID)
+	}
+	else {return}
+}
+/*  ------------------------------------
+Embed-blocks
+------------------------------------ */
+function Geral_Embed(message, TypeEmbedID) {
+	const Embed=new Discord.MessageEmbed()
+		.setTitle(bseason.dungeon.system.EmbedID.Title[database.get(`EID_${message.author.id}`)-1])
+		.setDescription(bseason.dungeon.system.EmbedID.Description[database.get(`EID_${message.author.id}`)-1])	
+		.addFields({name: 'Name', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDname`)+'\`\`\`', inline: true})
+		.addFields({name: 'Life', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDlife`)+'\`\`\`', inline: true})
+		.addFields({name: '\u200b', value: '\u200b', inline: false})
+		.addFields({name: 'Damage', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDdamage`)+'\`\`\`', inline: true})
+		.addFields({name: 'Defense', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDdefense`)+'\`\`\`', inline: true})
+		.setTimestamp()
+		.setColor("#000000");
+		database.delete(`EID_${message.author.id}`) // bug chance | in case the bug delete this and json.sqlite and reinstall using $playerbuild
+	return Embed
+}
+/*  ------------------------------------
+Battle-system-block
+------------------------------------ */
+function Attack_Embed(message, TypeEmbedID) {
+	var PlayerDamage=Player_Damage(message)
+	if(livecharge<=0) {return Final_Embed("defeat")}
+	else {Mob_Damage(message)}
+	if(database.get(`mobID_${message.author.id}.IDlife`)<=0) {return Final_Embed("victory")}
+	else if(PlayerDamage>0 && database.get(`mobID_${message.author.id}.IDlife`)>0) {
+		const Embed=new Discord.MessageEmbed()
+			.setTitle(bseason.dungeon.system.EmbedID.Title[database.get(`EID_${message.author.id}`)-1])
+			.setDescription(bseason.dungeon.system.EmbedID.Description[database.get(`EID_${message.author.id}`)-1]+PlayerDamage+bseason.dungeon.system.EmbedID.Complement[database.get(`EID_${message.author.id}`)-2]+MobDamage+' de dano')
+			.addFields({name: 'Name', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDname`)+'\`\`\`', inline: true})
+			.addFields({name: 'Vida do Mob: Life', value: '\`\`\`'+database.get(`mobID_${message.author.id}.IDlife`)+'\`\`\`', inline: true})
+			.setTimestamp()
+			.setColor("#000000");
+			database.delete(`EID_${message.author.id}`) // bug chance | in case the bug delete this and json.sqlite and reinstall using $playerbuild
+		return Embed
+	}
+	else if(PlayerDamage<=0) {return console.log('ataque ineficiente')/*Attack ineficient*/}
+	else {return}	
+}
+/*  ------------------------------------
+Final-function
+------------------------------------ */
+function Final_Embed(StringDef) {
+	var victoryText=1;
+	// Dead end and victory end
+	if(StringDef==="victory") {
+		// define victory
+		victoryText=1
+		deleteMobID(message)
+	}
+	else if(StringDef==="defeat") {
+		// define defeat
+		victoryText=0
+		deleteMobID(message)
+	}
+	else{return}
+	const Embed=new Discord.MessageEmbed()
+		.setTitle(bseason.dungeon.system.EmbedID.Title[victoryText+2])
+		.setDescription(bseason.dungeon.system.EmbedID.Description[victoryText+2])
+		.addFields({name: 'Commandos', value: '\`\`\`'+bseason.dungeon.system.EmbedID.Complement[[1]]+'\`\`\`', inline: true})
+		.setTimestamp()
+		.setColor("#000000");
+		database.delete(`EID_${message.author.id}`) // bug chance | in case the bug delete this and json.sqlite and reinstall using $playerbuild
+	return Embed
+}
+/*  ------------------------------------
+Mob-Damage-function
+------------------------------------ */
+async function Mob_Damage(message) {
+	if(livecharge<=0) {return Final_Embed("defeat")}	
+	else {
+		var MobDamage=Math.round(database.get(`mobID_${message.author.id}.IDdamage`)-database.get(`def_${message.author.id}`))
+ 		if(MobDamage>0) {
+	 		// damage effective
+	 		await database.subtract(`lbar_${message.author.id}`, MobDamage)
+ 		}
+ 		else {MobDamage=0}
+ 		return MobDamage
+ 	}
+}
+/*  ------------------------------------
+Player-Damage-function
+------------------------------------ */
+async function Player_Damage(message) {
+	//vars damage, defense, mobID, life
+	if(livecharge<=0) {return Final_Embed("defeat")}
+	else {
+	 	//damage-defense | EX: player damage=2 Mobdefense=1 | 2-1=1 (damage)
+	 	var PlayerDamage=Math.round(database.get(`damage_${message.author.id}`)-database.get(`mobID_${message.author.id}.IDdefense`))
+	 	if(PlayerDamage>0) {
+	 		// damage effective
+	 		await database.subtract(`mobID_${message.author.id}.IDlife`, PlayerDamage)
+	 	}
+	 	else {PlayerDamage=0}
+	 	return PlayerDamage
+	}
+}
+module.exports = dungeonM;
+//end
 
 
 
@@ -150,12 +304,7 @@ console.log(`if3`)
 	}
 	else {return}
 }
-// Random machine
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 // main function mob spawn
 function MobSpawn(mobID, message) {
 	// mob global pass to local 
@@ -289,4 +438,3 @@ function EmbedMoneyF(Discord, message) {
 }
 
 // comment border */
-module.exports = dungeonM;

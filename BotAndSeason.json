@@ -10,8 +10,8 @@
 		"Developing": true
 	},	
 	"BotInfo": {
-		"Important":"3.0.2.4 global.version, bug fix: database init. \n3.0.3 index.js.version, version < 3.0.3 Not suported \n2.0.2 dungeonMachine.version, Critical bugs", 
-		"New": "Font Update \nSystem: \"AntiBug \"created",
+		"Important":"3.0.3 global.version, Rebuilding. \n3.0.4 index.js.version, devAdd=>requires \n2.0.3.5 rebuild dungeonMachine.version, Testing / 2.0.3 Offline => system GD", 
+		"New": "bugs fix, dungeon in test",
 		"comandos": "playerbuild \ninfo \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nuse \ninventario \ndungeon"
 	},
 	"SeasonControl": {
@@ -116,6 +116,39 @@
 	"dungeon": {
 		"images": {
 			"dungeon_in_out": "https://static.wikia.nocookie.net/the-hidden-dungeon-only-i-can-enter/images/e/e9/Olivia_Dungeon_Gate.jpg/revision/latest/scale-to-width-down/250?cb=20210117183304"
+		},
+		"system": {
+			"eventRandom": {
+				"min": 0,
+				"max": 3
+			},
+			"mobRandom": {
+				"min": 0,
+				"max": 0
+			},
+			"mobList": {
+				"Names": ["Slime"],
+				"Life": [1],
+				"Damage": [1],
+				"Defense": [0]
+			},
+			"EmbedID": {
+				"Title": [
+					"Dungeon-Mob",
+					"Dungeon-Attack",
+					"Defeat",
+					"Victory"
+				],
+				"Description": [
+					"Você encontrou um mob",
+					"Você atacou o mob causando: ",
+					"Você foi derrotado pelo mob que estava na dungeon, você ficou ferido, \nuse uma poção de vida para se recuperar ou use o cristal mágico para te levar para o hospital da cidade"
+				],
+				"Complement": [
+					"de dano e ele te ataca dando",
+					"Usar a poção: $use [slot number] \nUsar o cristal: $use crystal"
+				]
+			}
 		}
 	}
 }

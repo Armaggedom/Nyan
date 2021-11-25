@@ -1,6 +1,6 @@
 /*
 * Dev: bombbom
-* Arq V: 3.0.3 OBS: VERSIONS < 3.0.3 NO LONGER SUPPORTED
+* Arq V: 3.0.4 OBS: VERSIONS < 3.0.3 NO LONGER SUPPORTED
 * Freezed: march to system.js
 */
 
@@ -8,7 +8,7 @@
 const aws = require('aws-sdk');
 global.Discord=require("discord.js")
 //client const
-const client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
+global.client=new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTIONS']})
 //database
 global.database=require("quick.db")
 try {
@@ -18,10 +18,16 @@ try {
 } finally {
 	//arqv request
 	console.log(`requesting mandatory files`)
+	console.log(`requesting package.json`)
 	const pack=require("./package.json")
+	console.log(`requesting BotAndSeason.json`)
 	const bseason=require("./BotAndSeason.json")
+	console.log(`requesting package-lock.json`)
 	const packL=require("./package-lock.json")
+	console.log(`requesting command_module.js`)
 	const commandList=require("./command_module.js")
+	console.log(`requesting security.js`)
+	const security=require("./security.js")
 	console.log(`successfully requested files. booting...`)
 	//vars
 	var prefix='$';
@@ -32,7 +38,7 @@ try {
 			'║                                     \x1b[33mBot Online  \x1b[31m                                    ║\n'+
 			'\x1B[31m║\x1b[0mInfo:\x1B[31m                                                                                ║\n'+
 			'\x1B[31m║     \x1b[0mDev: Bombbom\x1B[31m                                                                    ║\n'+
-			'\x1B[31m║     \x1b[0mVers: '+pack.version+', Description: '+pack.description+'\x1B[31m                                        ║\n'+
+			'\x1B[31m║     \x1b[0mVers: '+pack.version+', Description: '+pack.description+'\x1B[31m                                          ║\n'+
 			'\x1B[31m║     \x1b[0mCreation data: Creation data:09/10 at 18:54 (GMT-3)\x1B[31m                             ║\n'+
 			'\x1B[31m║     \x1b[0mInit time: '+Date()+'\x1B[31m       ║\n'+
 			'\x1B[31m║                                                                                     ║\n'+
@@ -49,6 +55,8 @@ try {
 			//const's
 			const args=message.content.slice().trim().split(/ +/g);
 			const command=args.shift().toLowerCase();
+			//security system
+			security(command, message)
 			//bot return
 			if(message.author.bot) {return}
 			//vars
@@ -90,6 +98,7 @@ try {
 			let mana=await database.fetch(`mana_${message.author.id}`)
 			global.defense=await database.fetch(`def_${message.author.id}`)
 			let speed=await database.fetch(`speed_${message.author.id}`)
+			global.EID=await database.fetch(`EID_${message.author.id}`)
 			//bar lets
 			let manacharge=await database.fetch(`mbar_${message.author.id}`)
 			global.livecharge=await database.fetch(`lbar_${message.author.id}`)
@@ -104,9 +113,8 @@ try {
 			global.damage=await database.fetch(`damage_${message.author.id}`)
 			// dungeon
 			global.dungeon=await database.fetch(`dungeon_${message.author.id}`)
-			// mobs
-			global.PersonalMob=await database.fetch(`mob_${message.author.id}`)
-			let GlobalMobKill=await database.fetch(`Gmob_${message.author.id}`)
+			// mob-dungeon
+			global.mobID=await database.fetch(`mobID_${message.author.id}`)
 			//anti-bug if
 			if(AntiBug===null) {AntiBug=false}
 			//person ifs
@@ -117,6 +125,7 @@ try {
 			if(money===null) {money=0}
 			if(mana===null) {mana=0}
 			if(speed===null) {speed=0}
+			if(EID===null) {EID=0}
 			//bar ifs
 			if(manacharge===null) {manacharge=0}
 			if(livecharge===null) {livecharge=1}
@@ -127,9 +136,8 @@ try {
 			if(energyP===null) {energyP=0}
 			if(equiped===null) {equiped='você não equipou nada'}
 			if(damage===null) {damage=0}
-			//mobs ifs
-			if(PersonalMob===null) {PersonalMob=0}
-			if(GlobalMobKill===null) {GlobalMobKill=0}
+			// mob dungeon if
+			if(mobID===null) {mobID=false}
 			//call command_module
 			var block=await commandList(command, message, prefix, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP)
 			if(block===1) {DevsBanner()}
