@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* security.js
  * V: 1.0
 */
@@ -22,7 +21,6 @@ function EmbedReturns(message) {
 		.setColor("#FF0000");
 	return message.channel.send(Embed)
 }
-=======
 /* security.js
  * V: 1.0
 */
@@ -46,5 +44,4 @@ function EmbedReturns(message) {
 		.setColor("#FF0000");
 	return message.channel.send(Embed)
 }
->>>>>>> 49c56408cff075556cdfc560cc4536faca9ef22e
 module.exports = Security;
