@@ -2,8 +2,7 @@
 Discord Bot
 
 created by: 
-
-[![N|Solid](Saklere_logo.png)](https://github.com/Armaggedom/)
+> Sakleren Devs
 
 ## Project RPWT
 > Project RPWT:
