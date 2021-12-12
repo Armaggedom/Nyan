@@ -78,7 +78,7 @@ try {
 			var DevsBanner=function() {
 				const Embed=new Discord.MessageEmbed()
 					.setTitle(`DevsWarn`)
-					.setDescription(`Ainda em desenvolvimento, aguarde`)
+					.setDescription(`Ainda em desenvolvimento ou foi colocado em estado de [OFFLINE]`)
 					.setImage(`${bseason.DevControl.Banner.img}`)
 					.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 					.setTimestamp()

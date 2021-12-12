@@ -8,7 +8,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
 		// RPG Block
-		//return 1
+		return 1
 		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
 		try { //transfer to system.js 
 			message.channel.send(`personagem sendo criado, aguarde...`)
@@ -84,6 +84,7 @@ External
 + site created
 Geral
 + security system (anti promotion)
+- RPG offline
 Dungeon
 + bug fix
 - dungeon offline
