@@ -1,4 +1,4 @@
-// Arq V:3.0.4 OBS: energy-- in dungeon commented to test && Dungeon in developing
+// Arq V:3.1 OBS: energy-- in dungeon commented to test && Dungeon in developing
 var messageDungeon=null;
 
 const bseason=require("./BotAndSeason.json")
@@ -8,9 +8,9 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
 		// RPG Block
-		return 1
+		//return 1
 		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
-		try {
+		try { //transfer to system.js 
 			message.channel.send(`personagem sendo criado, aguarde...`)
 			.then(async(msg)=>{
 				await msg.edit('\n┐ System Call... └\n')
@@ -30,12 +30,9 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 				msg.edit('installing your id with the variable: \'equiped_\'')
 				await database.set(`equiped_${message.author.id}`, 'você não equipou nada')
 				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'EID_\'')
-				await database.set(`EID_${message.author.id}`, 0)
+				msg.edit('installing your id with the variable: \'DungeonFloor_\'')
+				await database.set(`DungeonFloor_${message.author.id}`, 'A0')
 				msg.edit('installation completed, booting next')
-				// msg.edit('installing your id with the variable: \'mob_\'')
-				// await database.set(`mob_${message.author.id}`, 0)
-				// msg.edit('installation completed, booting next')
 				//installation END
 				msg.edit('installing your id with the variable: \'AntiBug_\'')
 				await database.set(`AntiBug_${message.author.id}`, true)
@@ -57,7 +54,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		finally{return}
 	}
 	/*  ------------------------------------
-		default-command-block
+		D1 : default-command-block
 		------------------------------------ */
 	if(command===`${prefix}info`) {
 		const Embed=new Discord.MessageEmbed()
@@ -81,7 +78,21 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 			.setTitle(`Help`)
 			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}, para utilizar comandos de personagem, você deve utilizar o comando playerbuild como primeiro comando`)
 			.addFields({name: `Comandos: prefixo: '${prefix}'`, value: `\`\`\`${bseason.BotInfo.comandos}\`\`\``, inline: true})
-			.addFields({name: `novidades:`, value: `\`\`\`${bseason.BotInfo.New}\`\`\``,inline: true})
+			.addFields({name: `novidades:`, value: `
+\`\`\`diff
+External
++ site created
+Geral
++ security system (anti promotion)
+Dungeon
++ bug fix
+- dungeon offline
+Próximas novidades
++ melhoria na visualização do comando $help
++ divulgação do nosso site
++ lançamendo do comando $dungeon
+\`\`\`
+		`,inline: true})
 			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
 			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
 			.setTimestamp()
@@ -156,7 +167,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		return bar;
 	}
 	/*  ------------------------------------
-		database-comand-block
+		D2 : database-comand-block
 		player-database-comand-block
 	    ------------------------------------ */
 	if(command===`${prefix}infoplayer`) {
@@ -205,7 +216,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		) 
 	}
 	/*  ------------------------------------
-		person-stats-comand-block
+		D3 : person-stats-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}use`) {
 		if(!args.length) {
@@ -249,7 +260,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		}
 	}
 	/*  ------------------------------------
-		economic-comand-block
+		D4: economic-comand-block
 	    ------------------------------------ */
 	//money view
 	else if(command===`${prefix}dinheiro`) {
@@ -299,7 +310,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		}
 	}
 	/*  ------------------------------------
-		player-comand-block
+		D5: player-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}inventario`) {
 		const Embed=new Discord.MessageEmbed()
@@ -320,7 +331,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		}			
 	}
 	/*  ------------------------------------
-		interact-comand-block
+		D6: interact-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}estudar`) {
 		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1){return 1}
@@ -331,25 +342,20 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 	else if(command===`${prefix}treinarresistência`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 3, 3, 3)}
 	else if(command===`${prefix}treinarmana`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 4, 4, 4)}
 	/*  ------------------------------------
-		dungeon-comand-block
+		D7 : dungeon-comand-block
 	    ------------------------------------ */
 	else if(command===`${prefix}dungeon`) {
 		if(!args.length) {
 			return message.channel.send(`você precisa colocar o comando da dungeon ex dungeon in`)
 		}
 		else if(args[0]==='in') {
+			// PASS TO DUNGEON MACHINE
 			if(database.get(`dungeon_${message.author.id}`)!==true) {
 				if(energycharge>0) {
 					database.set(`ebar_${message.author.id}`, energycharge-=1)
-					database.set(`dungeon_${message.author.id}`, true)
-					const Embed=new Discord.MessageEmbed()
-						.setTitle(`Dungeon`)
-						.setDescription(bseason.Script.dungeon.in)
-						.addFields({name: bseason.Script.dungeon.commands, value: '\u200b', inline: false})
-						.setImage(bseason.dungeon.images.dungeon_in_out)
-						.setTimestamp()
-						.setFooter(`Dungeon_event on`)
-					return message.channel.send(Embed)
+					database.set(`dungeon_${message.author.id}`, true)	
+					messageDungeon=dungeonM("in", message)
+					if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 				}
 				else {
 					return message.channel.send(`você não tem energia suficiente`)
@@ -372,19 +378,13 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
 			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
 				messageDungeon=dungeonM("explorer", message)
-				if(typeof messageDungeon ==='object') {messageReturn(messageDungeon, message)}
-			}
-			else if(args[0]===`atacar`) {
-				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
-			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
-				messageDungeon=dungeonM("attack", message)
-				console.log(typeof messageDungeon)
-				if(typeof messageDungeon ==='object') {messageReturn(messageDungeon, message)}
+				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
 			else if(args[0]===`test`) {
-				messageDungeon=dungeonM("test", message)
-				if(typeof messageDungeon ==='object') {messageReturn(messageDungeon, message)}	
+				messageDungeon=dungeonM("explorer", message)
+				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
+			else {return}
 		}
 	}
 	else {if(message.content.startsWith(prefix)){return message.reply('o comando: '+message.content+' não foi encontrado')}}

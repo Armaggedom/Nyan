@@ -1,6 +1,6 @@
 {
   "name": "Nyan",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "project RPWT",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1009.0",
+    "aws-sdk": "^2.1046.0",
     "discord-rpc": "^4.0.1",
     "discord.js": "^12.5.3",
     "index.js": "0.0.3",
