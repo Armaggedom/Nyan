@@ -1,12 +1,10 @@
 /*
-* Dungeon Machine V:2.0.3 original version-OffLine
-* Arq V:2.0.3.5
-* version < 2.0.3.5 dont suport
-* Rebulding ALL code, final version 2.0.4
-* need to add: attack, win, lose
+* Dungeon Machine V:2.0.4
+* version < 2.0.4 dont suport
 --------------------------------------------------------------------------------------- */
 // Requires
 const system=require('./dungeon_system.json')
+const bseason=require("./BotAndSeason.json") // update this
 // Random machine
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -17,22 +15,38 @@ function getRandomIntInclusive(min, max) {
 main-machine-block
 ------------------------------------ */
 function dungeonM(argsType, message) {
-    // Recive argsType
+    /*  ------------------------------------
+        D1: if's-action-block | Recive argsType
+        ------------------------------------ */
     if(argsType==="in") {
         const Embed=new Discord.MessageEmbed()
             .setTitle(`Dungeon | Andar: ` + database.get(`DungeonFloor_${message.author.id}`))
-            .setDescription(bseason.Script.dungeon.in)
+            .setDescription(bseason.Script.dungeon.in) // update this block
             .addFields({name: bseason.Script.dungeon.commands, value: '\u200b', inline: false})
             .setImage(bseason.dungeon.images.dungeon_in_out)
             .setTimestamp()
             .setFooter(`Dungeon_event on`)
         return message.channel.send(Embed)
     }
-    // in the dungeon
-    if(argsType==="explorer") {
-        //return
+    if(argsType==="out") {
+        if(database.get(`dungeon_${message.author.id}`)!==true) {return 'você não esta dentro de uma dungeon'}
+        else if(database.get(`mobID_${message.author.id}`)!==null) {return 'você está em batalha'}
+        else{
+            database.set(`dungeon_${message.author.id}`, false)
+            const Embed=new Discord.MessageEmbed()
+                .setTitle(`Dungeon`)
+                .setDescription(bseason.Script.dungeon.out)
+                .setImage(bseason.dungeon.images.dungeon_in_out)
+                .setTimestamp()
+                .setFooter(`Dungeon_event off`)
+            return message.channel.send(Embed)
+        }
+    }
+    /*  commands in dungeon
+        explorer commands   */
+    else if(argsType==="explorer") {
         if(database.get(`mobID_${message.author.id}`)!==null) {return 'você está em batalha'}
-        //explorer command
+        // call random => 50% = true or false
         if(getRandomIntInclusive(system.explorationChance.mim, system.explorationChance.max)===0) {
             return Explorer_FALSE_EMBED()
         }
@@ -40,7 +54,14 @@ function dungeonM(argsType, message) {
             return Explorer_TRUE_EMBED(message)
         }
     }
+    // attack command
+    else if(argsType==="attack") {
+        if(database.get(`mobID_${message.author.id}`)===null) {return 'você não encontrou nenhum mob'}
+        return BattleMode(message)
+    }
+    // test command
     else if(argsType==="test") {
+        database.set(`lbar_${message.author.id}`, 1)
         return database.delete(`mobID_${message.author.id}`)
     }
     else{return};
@@ -78,6 +99,46 @@ function dungeonM(argsType, message) {
             .addFields({name: `Ataque:`, value: `\`\`\`${database.get(`mobID_${message.author.id}.damage`)}\`\`\``, inline: true})
             .setTimestamp()
             .setFooter('mob ID: '+ database.get(`mobID_${message.author.id}.ID`))
+        return Embed;
+    }
+    function BattleMode(message) {
+        // player attack
+        if(database.get(`lbar_${message.author.id}`)<=0) {return console.log('jogador morreu')}
+        var PlayerDamage = Math.round(database.get(`damage_${message.author.id}`)-database.get(`mobID_${message.author.id}.defense`))
+        if(PlayerDamage<=0) {PlayerDamage=0}
+        else {database.subtract(`mobID_${message.author.id}.life`, PlayerDamage)}
+        // mob attack
+        if(database.get(`mobID_${message.author.id}.life`)<=0) {return console.log('mob morreu')}
+        var MobDamage = Math.round(database.get(`mobID_${message.author.id}.damage`)-database.get(`def_${message.author.id}`))
+        if(MobDamage<=0) {MobDamage=0}
+        else{database.subtract(`lbar_${message.author.id}`, MobDamage)}
+        // anti bug
+        if(database.get(`lbar_${message.author.id}`)<=0) {return PlayerDead(message)}
+        //damage embed
+        console.log('vida do jogador: '+database.get(`lbar_${message.author.id}`)+' seu dano '+PlayerDamage+'\nvida do mob: '+database.get(`mobID_${message.author.id}.life`)+' dano do mob '+MobDamage)
+        const Embed=new Discord.MessageEmbed()
+            .setTitle('Dungeon: Andar: '+ database.get(`DungeonFloor_${message.author.id}`))
+            .setDescription('você atacou o mob causando ' +PlayerDamage+' de dano e ele te atacou causando ' +MobDamage+ ' de dano' )
+        return Embed;
+    }
+    function PlayerDead(message) {
+        const Embed=new Discord.MessageEmbed()
+            .setTitle('Dungeon: Andar: '+ database.get(`DungeonFloor_${message.author.id}`))
+            .setDescription('você morreu batalhando com um '+database.get(`mobID_${message.author.id}.name`))
+            .setTimestamp()
+            .setFooter('Dungeon_event off')
+        database.delete(`mobID_${message.author.id}`)
+        database.set(`dungeon_${message.author.id}`, false)
+        return Embed;
+    }
+    function MobDead(message) {
+        const Embed=new Discord.MessageEmbed()
+            .setTitle('Dungeon: Andar: '+ database.get(`DungeonFloor_${message.author.id}`))
+            .setDescription('você matou o mob'+database.get(`mobID_${message.author.id}.name`)+' e ele dropou um núcleo estilhaçado que vale 5 moedas')
+            .setTimestamp()
+            .setFooter('Dungeon_event on')
+        database.add(`money_${message.author.id}`)
+        database.delete(`mobID_${message.author.id}`)            
         return Embed;
     }
 }

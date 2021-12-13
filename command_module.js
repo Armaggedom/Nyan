@@ -1,4 +1,4 @@
-// Arq V:3.1 OBS: energy-- in dungeon commented to test && Dungeon in developing
+// Arq V:3.2 OBS: energy-- in dungeon commented to test && Dungeon in developing
 var messageDungeon=null;
 
 const bseason=require("./BotAndSeason.json")
@@ -8,7 +8,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
 		// RPG Block
-		return 1
+		// return 1 --------------------------------------------------------------------------
 		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
 		try { //transfer to system.js 
 			message.channel.send(`personagem sendo criado, aguarde...`)
@@ -75,44 +75,40 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 	}
 	else if(command===`${prefix}help`) {
 		const Embed=new Discord.MessageEmbed()
-			.setTitle(`Help`)
-			.setDescription(`RPG bot:\nBot de RPG\nseason info:\n${bseason.SeasonControl.infoSeason}, para utilizar comandos de personagem, você deve utilizar o comando playerbuild como primeiro comando`)
-			.addFields({name: `Comandos: prefixo: '${prefix}'`, value: `\`\`\`${bseason.BotInfo.comandos}\`\`\``, inline: true})
-			.addFields({name: `novidades:`, value: `
+			.setTitle(`Help command`)
+			.setDescription('Help command; \nInfelismente estamos com um erro neste comando então para acessar as outras opções voc^deve usar novamente o comando $help \nem ordem da esquerda para a direita: commandos, novidades')
+			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
+			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
+			.setTimestamp()
+			.setColor("#000000");
+		message.channel.send(Embed)
+			.then(async(msg)=>{
+				message.react("911057470250709083").then(r => {
+                            message.react('911057155677888573');
+                    });
+    			message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == '911057470250709083' || reaction.emoji.id == '911057155677888573'), { max: 1, time: 30000 }).then(collected => {
+        		if (collected.first().emoji.id == '911057470250709083') {
+            	    msg.edit(bseason.BotInfo.comandos);
+        		}
+        		else
+            	    msg.edit(`
 \`\`\`diff
 External
 + site created
 Geral
 + security system (anti promotion)
-- RPG offline
++ RPG system online
 Dungeon
 + bug fix
-- dungeon offline
++ dungeon online
 Próximas novidades
 + melhoria na visualização do comando $help
 + divulgação do nosso site
-+ lançamendo do comando $dungeon
 \`\`\`
-		`,inline: true})
-			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
-			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
-			.setTimestamp()
-			.setColor("#000000");
-		return message.channel.send(Embed)
+            	    `);
+				})
+    		})
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 	else if(command===`${prefix}rainbow`) {
 		const Embed=new Discord.MessageEmbed()
 		.setTitle(`SAMPLE_TEXT`)
@@ -350,6 +346,9 @@ Próximas novidades
 			return message.channel.send(`você precisa colocar o comando da dungeon ex dungeon in`)
 		}
 		else if(args[0]==='in') {
+			if(database.get(`dungeon_${message.author.id}`)===true) {
+				return message.channel.send('você já está dentro da dungeon')
+			}
 			// PASS TO DUNGEON MACHINE
 			if(database.get(`dungeon_${message.author.id}`)!==true) {
 				if(energycharge>0) {
@@ -365,24 +364,24 @@ Próximas novidades
 		}
 		if(database.get(`dungeon_${message.author.id}`)===true) {
 			if(args[0]===`out`) {
-				database.set(`dungeon_${message.author.id}`, false)
-				const Embed=new Discord.MessageEmbed()
-					.setTitle(`Dungeon`)
-					.setDescription(bseason.Script.dungeon.out)
-					.setImage(bseason.dungeon.images.dungeon_in_out)
-					.setTimestamp()
-					.setFooter(`Dungeon_event off`)
-				return message.channel.send(Embed)
+				messageDungeon=dungeonM("out", message)
+				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
+			/*  ------------------------------------
+				D8 : dungeon-action-comand-block
+	    		------------------------------------ */
 			else if(args[0]===`explorar`) {
-				var keyD;
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
 			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
 				messageDungeon=dungeonM("explorer", message)
 				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
+			else if(args[0]===`atacar`) {
+				messageDungeon=dungeonM("attack", message)
+				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
+			}
 			else if(args[0]===`test`) {
-				messageDungeon=dungeonM("explorer", message)
+				messageDungeon=dungeonM("test", message)
 				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
 			else {return}

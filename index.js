@@ -3,7 +3,6 @@
 * Arq V: 3.0.4 OBS: VERSIONS < 3.0.3 NO LONGER SUPPORTED
 * Freezed: march to system.js
 */
-
 //packs
 const aws = require('aws-sdk');
 global.Discord=require("discord.js")
