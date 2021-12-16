@@ -11,7 +11,7 @@
 	},	
 	"BotInfo": {
 		"Important":"3.1 index.js.version, stoped\n2.0.3.5 rebuild version, dungeonMachine.version / 2.0.3 Offline => system GD",
-		"comandos": "info \nhelp \nqualquer comando de playerbuild a baixo está temporariamente desligado\nplayerbuild \ninfoplayer \ncorrer \nestudar \nacademia \ntreinarresistência \ntreinarmana \nloja \ntrabalhar \ndinheiro \nstats \nequip \nuse \ninventario \ndungeon"
+		"comandos": "\ninfoplayer \ncorrer \nacademia \ntreinarresistência \nloja \ntrabalhar \ndinheiro \nstats \nequip \nuse \ninventario \ndungeon"
 	},
 	"SeasonControl": {
 		"season":"1",

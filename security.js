@@ -5,6 +5,7 @@ async function Security(command, message) {
 	var myString=command
 	var splits = myString.split('/');
 	for(var i=0; i<10; i++) {
+		console.log(splits[i])
 		if(splits[i]==='discord.gg'){
 			await message.delete({timeout:1})
 			return EmbedReturns(message)

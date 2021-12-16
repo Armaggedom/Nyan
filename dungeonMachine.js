@@ -1,5 +1,5 @@
 /*
-* Dungeon Machine V:2.0.4
+* Dungeon Machine V:2.0.5
 * version < 2.0.4 dont suport
 --------------------------------------------------------------------------------------- */
 // Requires
@@ -108,7 +108,7 @@ function dungeonM(argsType, message) {
         if(PlayerDamage<=0) {PlayerDamage=0}
         else {database.subtract(`mobID_${message.author.id}.life`, PlayerDamage)}
         // mob attack
-        if(database.get(`mobID_${message.author.id}.life`)<=0) {return console.log('mob morreu')}
+        if(database.get(`mobID_${message.author.id}.life`)<=0) {return MobDead(message)}
         var MobDamage = Math.round(database.get(`mobID_${message.author.id}.damage`)-database.get(`def_${message.author.id}`))
         if(MobDamage<=0) {MobDamage=0}
         else{database.subtract(`lbar_${message.author.id}`, MobDamage)}

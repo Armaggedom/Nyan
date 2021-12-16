@@ -1,6 +1,6 @@
 {
   "name": "Nyan",
-  "version": "3.1.2",
+  "version": "4.0.0",
   "description": "project RPWT",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,9 @@
   "type": [
     "comand_module.js",
     "dungeonMachine.js",
-    "security.js"
+    "security.js",
+    "initalizerOutput.js",
+    "system.js"
   ],
   "license": "ISC",
   "dependencies": {

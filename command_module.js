@@ -1,9 +1,5 @@
-// Arq V:3.2 OBS: energy-- in dungeon commented to test && Dungeon in developing
+// Arq V:3.2.1 OBS: energy-- in dungeon commented to test && Dungeon in developing
 var messageDungeon=null;
-
-const bseason=require("./BotAndSeason.json")
-const app_pack=require("./package.json")
-const dungeonM=require("./dungeonMachine.js")
 function commandList(command, message, prefix, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
 	// AntiBug command Border
 	if(command===`${prefix}playerbuild`) {
@@ -11,33 +7,7 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		// return 1 --------------------------------------------------------------------------
 		if(AntiBug===true){return message.channel.send('você já criou um personagem')}
 		try { //transfer to system.js 
-			message.channel.send(`personagem sendo criado, aguarde...`)
-			.then(async(msg)=>{
-				await msg.edit('\n┐ System Call... └\n')
-				await setTimeout(function(){}, 5);
-				msg.edit('installing your id with the variable: \'lbar_\'')
-				await database.set(`lbar_${message.author.id}`, bseason.player.stats.vitality.Lv[0])
-				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'mana_\'')
-				await database.set(`mbar_${message.author.id}`, bseason.player.stats.mana.Lv[0])
-				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable \'speed_\'')
-				await database.set(`ebar_${message.author.id}`, bseason.player.stats.energy.Lv[0])
-				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'money_\'')
-				await database.set(`money_${message.author.id}`, 0)
-				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'equiped_\'')
-				await database.set(`equiped_${message.author.id}`, 'você não equipou nada')
-				msg.edit('installation completed, booting next')
-				msg.edit('installing your id with the variable: \'DungeonFloor_\'')
-				await database.set(`DungeonFloor_${message.author.id}`, 'A0')
-				msg.edit('installation completed, booting next')
-				//installation END
-				msg.edit('installing your id with the variable: \'AntiBug_\'')
-				await database.set(`AntiBug_${message.author.id}`, true)
-				await msg.edit('installation finished')
-			})
+			system('InstallDungeon', message)
 		} 
 		catch (error) {
 			message.channel.send('Error: '+ error+ ' Instalation aborted')
@@ -62,8 +32,9 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 			.setDescription(
 				'╔══════════════════════════\n'+
 				'║ BOT: project RPWT [Role Play Word Text]\n'+
-				'║ Version: '+app_pack.version+'\n'+
+				'║ Version: '+pack.version+'\n'+
 				'║ GitHub: https://github.com/Armaggedom/Nyan\n'+
+				'║ Site: https://nyansite.herokuapp.com\n'+
 				'╚══════════════════════════'
 				)
 			.addFields({name: `M-Dev:`, value: `キャンディー`, inline: true})
@@ -74,24 +45,18 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 		return message.channel.send(Embed)
 	}
 	else if(command===`${prefix}help`) {
-		const Embed=new Discord.MessageEmbed()
-			.setTitle(`Help command`)
-			.setDescription('Help command; \nInfelismente estamos com um erro neste comando então para acessar as outras opções voc^deve usar novamente o comando $help \nem ordem da esquerda para a direita: commandos, novidades')
-			.addFields({name: `para mais Informações entre em contato com o @キャンディー#9775 :`, value: '\u200b',inline: false})
-			.setFooter(`RPG Bot (project RPWT) - Creator: キャンディー \nVersion: pt-br`)
-			.setTimestamp()
-			.setColor("#000000");
-		message.channel.send(Embed)
-			.then(async(msg)=>{
-				message.react("911057470250709083").then(r => {
-                            message.react('911057155677888573');
-                    });
-    			message.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.id == '911057470250709083' || reaction.emoji.id == '911057155677888573'), { max: 1, time: 30000 }).then(collected => {
-        		if (collected.first().emoji.id == '911057470250709083') {
-            	    msg.edit(bseason.BotInfo.comandos);
-        		}
-        		else
-            	    msg.edit(`
+		const Command_Help=new Discord.MessageEmbed()
+		const Command_News=new Discord.MessageEmbed()
+			Command_Help.setTitle('Comandos')
+			Command_Help.setDescription('Todos os comandos do bot estão disponiveis aqui nesta mensagem')
+			Command_Help.addFields({name: 'global', value: '$help \n$info', inline: false})
+			Command_Help.addFields({name: 'RPG (apenas podem ser usados após o comando $playerbuild)', value: bseason.BotInfo.comandos, inline: false})
+			Command_Help.setTimestamp()
+			Command_Help.setColor("#000000")
+			Command_News.setTitle('Novidades')
+			Command_News.setDescription('Aqui estão todas as novidades da versão: '+pack.version)
+			Command_News.setTimestamp()
+			Command_News.addFields({name: 'novidades (+ adicionado, - removido)', value: `
 \`\`\`diff
 External
 + site created
@@ -101,15 +66,23 @@ Geral
 Dungeon
 + bug fix
 + dungeon online
-Próximas novidades
 + melhoria na visualização do comando $help
-+ divulgação do nosso site
+Próximas novidades:
+divulgação de nosso site
+Para devs: {
+	melhoria das classes de armas
+}
+
+utilização dos status de inteligência e mana
 \`\`\`
-            	    `);
-				})
-    		})
+			`})
+			Command_News.setColor("#000000")
+		message.channel.send(Command_Help)
+		message.channel.send(Command_News)
+		return 0
 	}
-	else if(command===`${prefix}rainbow`) {
+
+/*	else if(command===`${prefix}rainbow`) {
 		const Embed=new Discord.MessageEmbed()
 		.setTitle(`SAMPLE_TEXT`)
 		.setDescription(`SAMPLE_TEXT`)
@@ -130,25 +103,10 @@ Próximas novidades
 				await msg.edit(Embed)
 			}
 		})
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	}*/
 
 	//AntiBug Border
-	if(database.get(`AntiBug_${message.author.id}`)===false | database.get(`AntiBug_${message.author.id}`)===null) {
+	if(database.get(`AntiBug_${message.author.id}`)===false && command!==`${prefix}help` | database.get(`AntiBug_${message.author.id}`)===null&& command!==`${prefix}info` ) {
 		if(message.content.startsWith(prefix)) {return message.channel.send(`você deve usar o comando ${prefix}playerbuild antes, para usar esse comando`)}
 		else {}
 	}
@@ -330,14 +288,14 @@ Próximas novidades
 	/*  ------------------------------------
 		D6: interact-comand-block
 	    ------------------------------------ */
-	else if(command===`${prefix}estudar`) {
+	/*else if(command===`${prefix}estudar`) {
 		if(bseason.DevControl.Developing!==false & message.author.id !== bseason.DevControl.IDs.Dev1){return 1}
 		random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 0, 0, 0)
-	}
+	} RETIRADO POR INUTILIDADE */
 	else if(command===`${prefix}correr`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 1, 1, 1)}
 	else if(command===`${prefix}academia`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 2, 2, 2)}
 	else if(command===`${prefix}treinarresistência`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 3, 3, 3)}
-	else if(command===`${prefix}treinarmana`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 4, 4, 4)}
+	// else if(command===`${prefix}treinarmana`){random_chance(bseason.habilitLevel.min, bseason.habilitLevel.max, 4, 4, 4)} RETIRADO POR INUTILIDADE
 	/*  ------------------------------------
 		D7 : dungeon-comand-block
 	    ------------------------------------ */
@@ -372,16 +330,12 @@ Próximas novidades
 	    		------------------------------------ */
 			else if(args[0]===`explorar`) {
 				if(energycharge<0) {return message.channel.send(`você não tem energia suficiente`)}
-			//	database.set(`ebar_${message.author.id}`,energycharge-=1)
+				database.set(`ebar_${message.author.id}`,energycharge-=1)
 				messageDungeon=dungeonM("explorer", message)
 				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
 			else if(args[0]===`atacar`) {
 				messageDungeon=dungeonM("attack", message)
-				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
-			}
-			else if(args[0]===`test`) {
-				messageDungeon=dungeonM("test", message)
 				if(typeof messageDungeon ==='object' || typeof messageDungeon==='string') {messageReturn(messageDungeon, message)}
 			}
 			else {return}
