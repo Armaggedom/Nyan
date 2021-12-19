@@ -1,13 +1,15 @@
 /* security.js
- * V: 1.0
+ * V: 1.1
 */
 async function Security(command, message) {
-	var myString=command
-	var splits = myString.split('/');
+	var myString=message.content
+	var splits = myString.split(" ").join(',').split('/').join(',').split(',');
+	console.log(splits)
+
 	for(var i=0; i<10; i++) {
-		console.log(splits[i])
 		if(splits[i]==='discord.gg'){
 			await message.delete({timeout:1})
+			myString=null;
 			return EmbedReturns(message)
 		}
 	}
