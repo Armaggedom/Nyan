@@ -1,4 +1,4 @@
-// Arq V:3.2.1 OBS: energy-- in dungeon commented to test && Dungeon in developing
+// Arq V:3.2.2 OBS: energy-- in dungeon commented to test && Dungeon in developing
 var messageDungeon=null;
 function commandList(command, message, prefix, random_chance, intelligence, strength, vitality, mana, defense, args, lifeP, manaP, client, speed, wearpons, manacharge, energycharge, damage, energyP) {
 	// AntiBug command Border
@@ -59,16 +59,16 @@ function commandList(command, message, prefix, random_chance, intelligence, stre
 			Command_News.addFields({name: 'novidades (+ adicionado, - removido)', value: `
 \`\`\`diff
 External
-+ site created
 Geral
-+ security system (anti promotion)
-+ RPG system online
-Dungeon
-+ bug fix
-+ dungeon online
-+ melhoria na visualização do comando $help
++ updated: security system (anti promotion)
+Shop
++ system updated
+- pode apresentar instabilidade
+inventory
++ system updated
++ desequipar armas
 Próximas novidades:
-divulgação de nosso site
+melhoria na visualização de inventario
 Para devs: {
 	melhoria das classes de armas
 }
@@ -249,13 +249,13 @@ utilização dos status de inteligência e mana
 		const item=parseInt(args[0]);
 		if(isNaN(item)) {return message.channel.send(`você deve digitar o numero do item ex: buy 1`)}
 		else {
-			if(database.get(`money_${message.author.id}`)<bseason.Economic.Shop.itens.price[item-1]) {
+			if(database.get(`money_${message.author.id}`)<bseason.Economic.Shop.itens[item-1].item.price) {
 				return message.channel.send(`você não tem dinheiro suficiente`)
 			}
 			else if(item>3) {
 				message.channel.send(`você comprou 1 arma ela está no seu inventario`)
-				database.push(`wearpon_${message.author.id}.name`, bseason.wearpons.name[item-4])
-				database.push(`wearpon_${message.author.id}.damage`, bseason.wearpons.damage[item-4])
+				database.push(`wearpon_${message.author.id}.name`, bseason.wearpons[item-4].wearpon.name)
+				database.push(`wearpon_${message.author.id}.damage`, bseason.wearpons[item-4].wearpon.damage)
 			}
 			else {
 				database.add(`${bseason.Economic.Shop.itens.keyI[item-1]}${message.author.id}`, 1)
@@ -275,7 +275,11 @@ utilização dos status de inteligência e mana
 	}
 	else if(command===`${prefix}equip`) {
 		const item=parseInt(args[0])
-		if(isNaN(item)) {return message.channel.send(`você deve digitar o numero do item ex: a arma que está na posição 1 coloque no final do comando o número 1 equip 1`)}
+		if(isNaN(item)) {return message.channel.send(`você deve digitar o numero do item ex: a arma que está na posição 1 coloque no final do comando o número 1 equip 1 \nSe você deseja desequipar use $equip 0`)}
+		else if(item===0) {
+			database.set(`equiped_${message.author.id}`, 'você não equipou nada')
+			database.set(`damage_${message.author.id}`, wearpons.damage[item-1])
+		}	
 		else {
 			try {
 				database.set(`equiped_${message.author.id}`, wearpons.name[item-1])

@@ -88,7 +88,6 @@
 		},
 		"Shop": {
 			"Open": true,
-
 			"itens": {
 				"name":["poção de vida", "poção de mana", "energético", "faquinha de corta pão"],
 				"keyI": ["lifeP_", "manaP_", "energyP_"],
@@ -96,10 +95,12 @@
 			}
 		}
 	},
-	"wearpons": {
-		"name":["faquinha de corta pão"],
-		"damage":[1]
-	},
+	"wearpons": [{
+		"wearpon": {
+			"name": "faquinha de corta pão",
+			"damage": 1
+		}
+	}],
 	"dungeon": {
 		"images": {
 			"dungeon_in_out": "https://static.wikia.nocookie.net/the-hidden-dungeon-only-i-can-enter/images/e/e9/Olivia_Dungeon_Gate.jpg/revision/latest/scale-to-width-down/250?cb=20210117183304"
