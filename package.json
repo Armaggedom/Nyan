@@ -1,6 +1,6 @@
 {
   "name": "Nyan",
-  "version": "4.0.2",
+  "version": "4.0.2.1",
   "description": "project RPWT",
   "main": "index.js",
   "scripts": {

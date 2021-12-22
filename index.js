@@ -27,7 +27,7 @@ try {
 	//command
 	client.on("ready", ()=>{
 		output()
-		client.user.setActivity('use $help', { type: 'WATCHING' });
+		client.user.setActivity('use $help | BOT [OFFLINE]', { type: 'WATCHING' });
 	  //client.user.setStatus(dnd) // Can be 'available', 'idle', 'dnd', or 'invisible'
 	})
 	client.on("message", async(message)=>{
