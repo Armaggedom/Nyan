@@ -12,18 +12,13 @@
     "discord": "キャンディー#9775"
   },
   "type": [
-    "comand_module.js",
-    "dungeonMachine.js",
-    "security.js",
-    "initalizerOutput.js",
-    "system.js"
+    "security.js"
   ],
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1046.0",
     "discord-rpc": "^4.0.1",
     "discord.js": "^12.5.3",
-    "index.js": "0.0.3",
-    "quick.db": "7.1.3"
+    "index.js": "0.0.3"
   }
 }
