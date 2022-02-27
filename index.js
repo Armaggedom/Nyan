@@ -1,6 +1,6 @@
 /*
 * Dev: bombbom
-* Arq V: 4.1
+* Arq V: 4.1.1
 */
 //packs
 const aws = require('aws-sdk');
@@ -34,12 +34,14 @@ try {
 			const args=message.content.slice().trim().split(/ +/g);
 			const command=args.shift().toLowerCase();
 			//security system
-			if(command==='@updateOn') {
+			if(command==='@updateon') {
 				update=true
 				client.user.setActivity('BOT [OFFLINE]', { type: 'WATCHING' });
+				message.send('bot em update')
 			}
-			if(command==='@updateOff') {
+			if(command==='@updateoff') {
 				update=false
+				message.send('bot operando')
 				
 			}
 			if(update===true) {
